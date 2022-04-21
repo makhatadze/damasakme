@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * App\Modules\Base\Models\Translations\ImageTranslation
+ * App\Models\Translations\CityAreaTranslation
  *
  * @property int $id
  * @property string $locale
@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaTranslation whereLocale($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaTranslation whereTitle($value)
  */
-class CityAreaTranslation extends Model
+class CityAreaTranslation extends BaseTranslationModel
 {
     use HasFactory;
 

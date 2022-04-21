@@ -12,7 +12,7 @@ namespace App\Models\Translations;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * App\Modules\Base\Models\Translations\ImageTranslation
+ * App\Models\Translations\CityTranslation
  *
  * @property int $id
  * @property string $locale
