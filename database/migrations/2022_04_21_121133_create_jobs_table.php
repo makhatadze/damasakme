@@ -1,11 +1,12 @@
 <?php
 /**
- *  database/migrations/2022_04_21_120319_create_files_table.php
+ *  database/migrations/2022_04_21_121133_create_jobs_table.php
  *
  * Date-Time: 21.04.22
- * Time: 16:15
+ * Time: 16:16
  * @author Vito Makhatadze <vitomakhatadze@gmail.com>
  */
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,13 +20,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('files', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->morphs('fileable');
-            $table->string('name');
-            $table->string('path');
-            $table->string('format');
-            $table->integer('type');
+        Schema::create('jobs', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -38,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('files');
+        Schema::dropIfExists('jobs');
     }
 };

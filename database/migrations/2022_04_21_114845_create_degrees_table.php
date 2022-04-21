@@ -3,7 +3,7 @@
  *  database/migrations/2022_04_21_114845_create_degrees_table.php
  *
  * Date-Time: 21.04.22
- * Time: 15:53
+ * Time: 16:14
  * @author Vito Makhatadze <vitomakhatadze@gmail.com>
  */
 use Illuminate\Database\Migrations\Migration;

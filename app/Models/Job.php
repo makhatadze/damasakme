@@ -1,51 +1,47 @@
 <?php
 /**
- *  app/Models/File.php
+ *  app/Models/Job.php
  *
  * Date-Time: 21.04.22
  * Time: 16:12
  * @author Vito Makhatadze <vitomakhatadze@gmail.com>
  */
+
 namespace App\Models;
 
+use App\Models\Translations\JobTranslation;
+use Astrotomic\Translatable\Translatable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+
 /**
- * App\Models\File
+ * App\Models\Job
  *
  * @property int $id
- * @property string $name
- * @property string $path
- * @property string $format
- * @property string $type
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
  */
-class File extends Model
+class Job extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Translatable;
 
     /** @var string */
-    protected $table = 'files';
+    protected $table = 'jobs';
 
     /** @var string[] */
     protected $fillable = [
-        'name',
-        'path',
-        'format',
-        'type',
+        'title',
     ];
 
+    /** @var string */
+    protected string $translationModel = JobTranslation::class;
 
-    /**
-     * Get the parent fileable model (user or post).
-     */
-    public function fileable()
-    {
-        return $this->morphTo();
-    }
+    /** @var array */
+    public array $translatedAttributes = [
+        'title',
+    ];
 }
