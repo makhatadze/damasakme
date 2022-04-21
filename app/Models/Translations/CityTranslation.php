@@ -20,10 +20,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|CityTranslation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CityTranslation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CityTranslation query()
- * @method static \Illuminate\Database\Eloquent\Builder|CityTranslation whereAlt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CityTranslation whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CityTranslation whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CityTranslation whereImageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CityTranslation whereCityId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CityTranslation whereLocale($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CityTranslation whereTitle($value)
  */

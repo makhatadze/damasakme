@@ -21,10 +21,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaDistrictTranslation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaDistrictTranslation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaDistrictTranslation query()
- * @method static \Illuminate\Database\Eloquent\Builder|CityAreaDistrictTranslation whereAlt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CityAreaDistrictTranslation whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaDistrictTranslation whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CityAreaDistrictTranslation whereImageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CityAreaDistrictTranslation whereCityAreaDistrictId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaDistrictTranslation whereLocale($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaDistrictTranslation whereTitle($value)
  */

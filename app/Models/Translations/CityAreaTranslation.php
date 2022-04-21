@@ -20,10 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaTranslation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaTranslation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaTranslation query()
- * @method static \Illuminate\Database\Eloquent\Builder|CityAreaTranslation whereAlt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CityAreaTranslation whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaTranslation whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|CityAreaTranslation whereImageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CityAreaTranslation whereCityAreaId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaTranslation whereLocale($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaTranslation whereTitle($value)
  */

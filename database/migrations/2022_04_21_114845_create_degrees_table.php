@@ -1,9 +1,9 @@
 <?php
 /**
- *  database/migrations/2022_04_21_112955_create_city_area_districts_table.php
+ *  database/migrations/2022_04_21_114845_create_degrees_table.php
  *
  * Date-Time: 21.04.22
- * Time: 15:51
+ * Time: 15:53
  * @author Vito Makhatadze <vitomakhatadze@gmail.com>
  */
 use Illuminate\Database\Migrations\Migration;
@@ -19,10 +19,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('city_area_districts', function (Blueprint $table) {
+        Schema::create('degrees', function (Blueprint $table) {
             $table->id();
-            $table->integer('city_area_id')->unsigned()->index();
-            $table->foreign('id')->references('id')->on('city_areas')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -35,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('city_area_districts');
+        Schema::dropIfExists('degrees');
     }
 };
