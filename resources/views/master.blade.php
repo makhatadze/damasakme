@@ -22,6 +22,17 @@
   </head>
   <body class="g-sidenav-show   bg-gray-100">
     @inertia
+    <script>
+      let sharedData = {!! json_encode($page["props"]["localizations"]??null) !!};
+      console.log(sharedData)
+      function __(key, replace = {}) {
+        let translation = sharedData?sharedData[key] || key : key;
+        Object.keys(replace).forEach(function (key) {
+          translation = translation.replace(":" + key, replace[key]);
+        });
+        return translation;
+      }
+    </script>
     <!--   Core JS Files   -->
     <script src="/js/core/popper.min.js"></script>
     {{-- <script src="/js/core/bootstrap.min.js"></script> --}}

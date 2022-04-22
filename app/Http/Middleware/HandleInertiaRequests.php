@@ -1,7 +1,16 @@
 <?php
+/**
+ *  app/Http/Middleware/HandleInertiaRequests.php
+ *
+ * Date-Time: 21.04.22
+ * Time: 16:35
+ * @author Vito Makhatadze <vitomakhatadze@gmail.com>
+ */
 
 namespace App\Http\Middleware;
 
+use App\Models\Language;
+use App\Models\LanguageLine;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -43,7 +52,68 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'type' => $request->session()->get('type'),
                 'message' => $request->session()->get('message'),
-            ]
+            ],
+            'locale' => function () {
+                return app()->getLocale();
+            },
+            'locales' => config('language_manager.locales'),
+            'localizations' => $this->languageItems(),
         ]);
+    }
+
+
+    /**
+     * @return array
+     */
+    public function languageItems(): array
+    {
+        $localizations = Language::where('status', true)->get();
+        $languages = [];
+        $languages['data'] = [];
+        if (count($localizations) > 0) {
+            foreach ($localizations as $localization) {
+                if ($this->isCurrent($localization->locale)) {
+                    $languages['current'] = [
+                        'title' => $localization->title,
+                        'url' => '',
+                        'locale' => $localization->locale
+                    ];
+                    continue;
+                }
+                $languages['data'][] = [
+                    'title' => $localization->title,
+                    'url' => $this->getUrl($localization->locale),
+                    'locale' => $localization->locale
+                ];
+            }
+        }
+        return $languages;
+    }
+
+    /**
+     * @param string $lang
+     *
+     * @return bool
+     */
+    protected function isCurrent(string $lang): bool
+    {
+        return app()->getLocale() === $lang;
+    }
+
+    /**
+     * @param $lang
+     *
+     * @return string
+     */
+    protected function getUrl($lang): string
+    {
+
+        $host = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+        $uriSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+
+        $uriSegments[1] = $lang;
+
+        $uriSegments = implode('/', $uriSegments);
+        return $host . $uriSegments;
     }
 }
