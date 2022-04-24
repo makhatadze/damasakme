@@ -1,5 +1,6 @@
 import { Link, usePage } from '@inertiajs/inertia-react'
 import React from 'react'
+import {Dropdown} from "react-bootstrap";
 
 export default function Navbar({props, pageName}) {
     const { auth } = usePage().props;
@@ -16,7 +17,18 @@ export default function Navbar({props, pageName}) {
                 </nav>
                 <div className="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                     <div className="ms-md-auto pe-md-3 d-flex align-items-center">
-                        
+                        <Dropdown className="d-inline mx-2">
+                            <Dropdown.Toggle variant="secondary">
+                                <img src="/img/flags/ge.svg" className="avatar avatar-sm  me-3 " />
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">
+                                    <img src="/img/flags/gb.svg" className="avatar avatar-sm  me-3 " />
+                                </Dropdown.Item>
+                                <Dropdown.Divider />
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </div>
                     <ul className="navbar-nav justify-content-end">                        
                         { auth.user != null 

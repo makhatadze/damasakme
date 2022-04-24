@@ -12,10 +12,12 @@ use Illuminate\Validation\ValidationException;
 class RegisterController extends Controller
 {
     public function create() {
+        return;
         return inertia('Auth/Register');
     }
 
     public function store(Request $request) {
+        return;
         $validated = $request->validate([
             'name' => ['required'],
             'username' => ['required'],
@@ -28,7 +30,7 @@ class RegisterController extends Controller
             
             Auth::login($newUser);
     
-            return redirect('/dashboard')->with([
+            return redirect()->route('dashboard')->with([
                 'type' => 'success',
                 'message' => 'You are logged in.'
             ]);

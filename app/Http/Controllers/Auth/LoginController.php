@@ -21,7 +21,7 @@ class LoginController extends Controller
 
         if(Auth::attempt($request->only('email', 'password'), $request->remember)) {
             session()->regenerate();
-            return redirect('/dashboard')->with([
+            return redirect()->route('dashboard')->with([
                 'type' => 'success',
                 'message' => 'You are logged in.'
             ]);
@@ -35,7 +35,7 @@ class LoginController extends Controller
     public function destroy() {
         Auth::logout();
 
-        return redirect('/login')->with([
+        return redirect()->route('login')->with([
             'type' => 'success', 'message' => 'You are now logout.',
         ]);
     }

@@ -13,11 +13,13 @@ class GoogleController extends Controller
 {
     public function redirectToGoogle()
     {
+        return;
         return Socialite::driver('google')->stateless()->redirect();
     }
     
     public function handleGoogleCallback()
     {
+        return;
         try {
             $user = Socialite::driver('google')->user();
         } catch (\Exception $e) {
@@ -57,7 +59,7 @@ class GoogleController extends Controller
     
                 Auth::login($newUser);
     
-                return redirect('/dashboard')->with([
+                return redirect()->route('dashboard')->with([
                     'type' => 'success',
                     'message' => 'You are logged in.'
                 ]);
