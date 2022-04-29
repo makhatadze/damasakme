@@ -49,7 +49,7 @@ export default function Sidebar() {
                     <li className="nav-item">
                         <Link className={`${route().current('jobs.*') && 'active'} nav-link`} href={route('jobs.index')}>
                             <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i className="fas fa-user-lock text-warning text-sm opacity-10" />
+                                <i className="ni ni-spaceship text-warning text-sm opacity-10" />
                             </div>
                             <span className="nav-link-text ms-1">{__('Jobs')}</span>
                         </Link>

@@ -44,8 +44,8 @@ export default function Index(props) {
                     <EditJob model={state} close={UpdateCloseTrigger}/>
                 </Dialog>
 
-                <Dialog trigger={destroyTrigger} title={`Delete User: ${state.name}`}>
-                    <p>{__('Are you sure to delete this user ?')}</p>
+                <Dialog trigger={destroyTrigger} title={`Delete Job: ${state.id}`}>
+                    <p>{__('Are you sure to delete this job ?')}</p>
                     <div className="modal-footer">
                         <button type="button" className="btn bg-gradient-secondary" data-bs-dismiss="modal">{__('Close')}</button>
                         <button type="submit" onClick={destroyUser} className="btn bg-gradient-danger">{__('Delete')}</button>
