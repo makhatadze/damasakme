@@ -7,6 +7,8 @@ import CreateUser from '../../Components/Dashboard/Users/CreateUser';
 import EditUser from '../../Components/Dashboard/Users/EditUser';
 import { Inertia } from '@inertiajs/inertia';
 import CreateJob from "../../Components/Dashboard/Jobs/CreateJob";
+import {Tab, Tabs} from "react-bootstrap";
+import EditJob from "../../Components/Dashboard/Jobs/EditJob";
 
 export default function Index(props) {
 
@@ -38,8 +40,8 @@ export default function Index(props) {
                     <CreateJob close={addCloseTrigger}/>
                 </Dialog>
 
-                <Dialog trigger={UpdateTrigger} title={`${__('Update Job')}: ${state.name}`}>
-                    <EditUser model={state} close={UpdateCloseTrigger}/>
+                <Dialog trigger={UpdateTrigger} title={`${__('Update Job')}: ${state.id}`}>
+                    <EditJob model={state} close={UpdateCloseTrigger}/>
                 </Dialog>
 
                 <Dialog trigger={destroyTrigger} title={`Delete User: ${state.name}`}>
@@ -70,7 +72,7 @@ export default function Index(props) {
                                 <table className="table align-items-center justify-content-center mb-0" width="100%">
                                     <thead>
                                         <tr>
-                                            <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-centter">#</th>
+                                            <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">#</th>
                                             <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-left">{__('Title')}</th>
                                             <th className="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">{__('Actions')}</th>
                                         </tr>
@@ -80,11 +82,17 @@ export default function Index(props) {
                                             <tr key={job.id}>
                                                 <td className='text-center'>{meta.from + index}</td>
                                                 <td className='text-left'>
-                                                    <div className="d-flex px-2">
-                                                        <div className="my-auto">
-                                                            <h6 className="mb-0 text-sm">{job.title}</h6>
-                                                        </div>
-                                                    </div>
+                                                        <Tabs className="mb-3">
+                                                            {
+                                                                job.translations.map(({locale,title}) => (
+                                                                    <Tab eventKey={locale} title={locale} key={locale}>
+                                                                        <div className="my-auto">
+                                                                            <h6 className="mb-0 text-sm">{title}</h6>
+                                                                        </div>
+                                                                    </Tab>
+                                                                ))
+                                                            }
+                                                        </Tabs>
                                                 </td>
                                                 <td className="align-middle text-center" width="10%">
                                                 <div>

@@ -1,9 +1,11 @@
 import {useForm, usePage} from '@inertiajs/inertia-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {Tab, Tabs} from "react-bootstrap";
 
-export default function CreateJob({close}) {
+export default function EditJob({close, model}) {
+
     const {locales} = usePage().props;
+
     const localeAttr = [];
     locales.forEach((el) => {
         localeAttr[el] = {
@@ -11,27 +13,53 @@ export default function CreateJob({close}) {
         }
     })
 
-    const {data, setData, post, reset, errors} = useForm({
+    const {data, setData, put, reset, errors} = useForm({
         ...localeAttr
     });
+
+    function setTranslationData (model) {
+        if (!model.translations) {
+            return
+        }
+        const localeAttr = [];
+        locales.forEach((el) => {
+            let title = ''
+            if (model.translations) {
+                let translation = model.translations.find((tr) => tr.locale === el)
+                if (translation) {
+                    title = translation.title
+                }
+            }
+            localeAttr[el] = {
+                title: title
+            }
+        })
+        return localeAttr;
+    }
 
     const handleLocaleChange = (index, event) => {
         const values = data;
         const updatedValue = event.target.name;
         values[index][updatedValue] = event.target.value;
-
         setData(values);
     };
+
     const onSubmit = (e) => {
         e.preventDefault();
-        post(route('jobs.store'), {
-            data,
+        put(route('jobs.update', model.id), {
+            data, 
             onSuccess: () => {
                 reset(),
-                    close()
-            },
+                close()
+            }, 
         });
     }
+
+    useEffect(() => {
+        setData({...data,
+            ...setTranslationData(model)
+        });
+    }, [model]);
 
     return (
         <>
@@ -43,7 +71,7 @@ export default function CreateJob({close}) {
                                 <Tab eventKey={locale} title={locale} key={locale}>
                                     <div className="form-group">
                                         <label htmlFor="title" className="col-form-label">{__('Title')}:</label>
-                                        <input type="text" className="form-control" name={'title'} value={data.name}
+                                        <input type="text" className="form-control" name={'title'} defaultValue={data[locale] ? data[locale].title : ''}
                                                onChange={(event) =>
                                                    handleLocaleChange(locale, event)
                                                } id="title"/>
@@ -53,12 +81,10 @@ export default function CreateJob({close}) {
                             ))
                         }
                     </Tabs>
-
                 </div>
                 <div className="modal-footer">
-                    <button type="button" className="btn bg-gradient-secondary"
-                            data-bs-dismiss="modal">{__('Close')}</button>
-                    <button type="submit" className="btn bg-gradient-primary">{__('Save')}</button>
+                    <button type="button" className="btn bg-gradient-secondary" data-bs-dismiss="modal">{__('Close')}</button>
+                    <button type="submit" className="btn bg-gradient-primary">{__('Update')}</button>
                 </div>
             </form>
         </>

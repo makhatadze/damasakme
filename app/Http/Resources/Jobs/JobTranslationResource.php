@@ -11,7 +11,7 @@ namespace App\Http\Resources\Jobs;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JetBrains\PhpStorm\ArrayShape;
 
-class JobResource extends JsonResource
+class JobTranslationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,13 +19,11 @@ class JobResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-     #[ArrayShape(['id' => "mixed", 'title' => "mixed", 'joined' => "mixed", 'translations' => "\Illuminate\Http\Resources\Json\AnonymousResourceCollection"])] public function toArray($request): array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable
+     #[ArrayShape(['locale' => "mixed", 'title' => "mixed"])] public function toArray($request): array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable
     {
         return [
-            'id' => $this->id,
+            'locale' => $this->locale,
             'title' => $this->title,
-            'joined' => $this->created_at->diffForHumans(),
-            'translations' => JobTranslationResource::collection($this->translations)
         ];
     }
 }

@@ -9,10 +9,9 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\JobRequest;
 use App\Http\Resources\Jobs\JobResource;
 use App\Models\Job;
-use App\Models\User;
 use function back;
 use function inertia;
 
@@ -21,16 +20,15 @@ class JobsController extends Controller
 
     public function index()
     {
-        $jobs = JobResource::collection(Job::latest()->paginate(10));
+        $jobs = JobResource::collection(Job::with('translations')->latest()->paginate(10));
         return inertia('Jobs/Index', [
             'jobs' => $jobs,
         ]);
     }
 
-    public function store(UserRequest $request): \Illuminate\Http\RedirectResponse
+    public function store(JobRequest $request): \Illuminate\Http\RedirectResponse
     {
         $attr = $request->toArray();
-
         Job::create($attr);
 
         return back()->with([
@@ -39,11 +37,11 @@ class JobsController extends Controller
         ]);
     }
 
-    public function update(UserRequest $request, User $user): \Illuminate\Http\RedirectResponse
+    public function update(JobRequest $request, Job $job): \Illuminate\Http\RedirectResponse
     {
         $attr = $request->toArray();
 
-        $user->update($attr);
+        $job->update($attr);
 
         return back()->with([
             'type' => 'success',

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Language;
 use App\Models\LanguageLine;
 use Illuminate\Support\ServiceProvider;
 

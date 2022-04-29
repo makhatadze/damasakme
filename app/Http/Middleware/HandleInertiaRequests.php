@@ -28,7 +28,9 @@ class HandleInertiaRequests extends Middleware
      * Determines the current asset version.
      *
      * @see https://inertiajs.com/asset-versioning
-     * @param  \Illuminate\Http\Request  $request
+     *
+     * @param \Illuminate\Http\Request $request
+     *
      * @return string|null
      */
     public function version(Request $request): ?string
@@ -40,7 +42,9 @@ class HandleInertiaRequests extends Middleware
      * Defines the props that are shared by default.
      *
      * @see https://inertiajs.com/shared-data
-     * @param  \Illuminate\Http\Request  $request
+     *
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function share(Request $request): array
@@ -56,7 +60,7 @@ class HandleInertiaRequests extends Middleware
             'locale' => function () {
                 return app()->getLocale();
             },
-            'locales' => config('language_manager.locales'),
+            'locales' => $this->getLocales(),
             'localizations' => $this->languageItems(),
         ]);
     }
@@ -115,5 +119,13 @@ class HandleInertiaRequests extends Middleware
 
         $uriSegments = implode('/', $uriSegments);
         return $host . $uriSegments;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getLocales(): array
+    {
+        return Language::where('status', true)->orderBy('default', 'desc')->pluck('locale')->toArray() ?? [];
     }
 }

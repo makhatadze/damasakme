@@ -26,10 +26,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|JobTranslation whereLocale($value)
  * @method static \Illuminate\Database\Eloquent\Builder|JobTranslation whereTitle($value)
  */
-class JobTranslation extends Model
+class JobTranslation extends BaseTranslationModel
 {
     use HasFactory;
 
     /** @var string */
     protected $table = 'job_translations';
+
+    /** @var string[] */
+    protected $fillable = [
+        'title',
+    ];
 }
