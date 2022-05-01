@@ -1,17 +1,17 @@
 <?php
 /**
- *  app/Http/Resources/City/CityCollection.php
+ *  app/Http/Resources/CityArea/CityAreaCollection.php
  *
  * Date-Time: 01.05.22
  * Time: 08:26
  * @author Vito Makhatadze <vitomakhatadze@gmail.com>
  */
-namespace App\Http\Resources\City;
+namespace App\Http\Resources\CityArea;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use JetBrains\PhpStorm\ArrayShape;
 
-class CityCollection extends ResourceCollection
+class CityAreaCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

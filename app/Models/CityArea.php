@@ -14,6 +14,7 @@ use Astrotomic\Translatable\Translatable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
@@ -45,4 +46,12 @@ class CityArea extends Model
     public array $translatedAttributes = [
         'title',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getCity(): HasOne
+    {
+        return $this->hasOne(City::class, 'id', 'city');
+    }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Back\CityAreaController;
 use App\Http\Controllers\Back\CityController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\DegreeController;
@@ -39,6 +40,7 @@ Route::middleware(['setLocale'])
                     Route::apiResource('jobs', JobsController::class);
                     Route::apiResource('degrees', DegreeController::class);
                     Route::apiResource('cities', CityController::class);
+                    Route::apiResource('city-areas', CityAreaController::class);
 
                     Route::get('profile', ProfileController::class)->name('profile');
                 });
