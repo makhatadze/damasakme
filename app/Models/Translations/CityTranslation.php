@@ -30,4 +30,10 @@ class CityTranslation extends BaseTranslationModel
 
     /** @var string */
     protected $table = 'city_translations';
+
+
+    /** @var string[] */
+    protected $fillable = [
+        'title',
+    ];
 }

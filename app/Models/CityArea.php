@@ -34,6 +34,7 @@ class CityArea extends Model
 
     /** @var string[] */
     protected $fillable = [
+        'city',
         'title',
     ];
 

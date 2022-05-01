@@ -21,8 +21,8 @@ return new class extends Migration
     {
         Schema::create('city_area_districts', function (Blueprint $table) {
             $table->id();
-            $table->integer('city_area_id')->unsigned()->index();
-            $table->foreign('id')->references('id')->on('city_areas')->onDelete('cascade');
+            $table->bigInteger('city_area')->unsigned()->index()->nullable();
+            $table->foreign('city_area')->references('id')->on('city_areas')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

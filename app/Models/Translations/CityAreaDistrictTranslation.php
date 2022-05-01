@@ -26,10 +26,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaDistrictTranslation whereLocale($value)
  * @method static \Illuminate\Database\Eloquent\Builder|CityAreaDistrictTranslation whereTitle($value)
  */
-class CityAreaDistrictTranslation extends Model
+class CityAreaDistrictTranslation extends BaseTranslationModel
 {
     use HasFactory;
 
     /** @var string */
     protected $table = 'city_area_district_translations';
+
+    /** @var string[] */
+    protected $fillable = [
+        'title',
+    ];
 }

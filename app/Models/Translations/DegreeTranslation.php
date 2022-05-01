@@ -17,10 +17,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|DegreeTranslation whereLocale($value)
  * @method static \Illuminate\Database\Eloquent\Builder|DegreeTranslation whereTitle($value)
  */
-class DegreeTranslation extends Model
+class DegreeTranslation extends BaseTranslationModel
 {
     use HasFactory;
 
     /** @var string */
     protected $table = 'degree_translations';
+
+    /** @var string[] */
+    protected $fillable = [
+        'title',
+    ];
 }

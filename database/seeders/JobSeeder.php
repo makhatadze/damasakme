@@ -17,7 +17,7 @@ class JobSeeder extends Seeder
     /**
      * @var string[]
      */
-    protected $jobs = [
+    protected array $jobs = [
         'TOP მენეჯმენტი',
         'ადამიანური რესურსები',
         'ადმინისტრაცია',

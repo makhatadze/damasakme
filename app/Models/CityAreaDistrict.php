@@ -24,11 +24,13 @@ class CityAreaDistrict extends Model
 
     /** @var string[] */
     protected $fillable = [
+        'city_area',
         'title',
     ];
 
     /** @var string */
     protected string $translationModel = CityAreaDistrictTranslation::class;
+    protected string $translationForeignKey = 'district_id';
 
     /** @var array */
     public array $translatedAttributes = [
