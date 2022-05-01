@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['setLocale'])
     ->group(function () {
         Route::get('/', HomeController::class)->name('home');
+        Route::get('/about', \App\Http\Controllers\App\AboutController::class)->name('about');
 
 
         Route::get('en', function () {

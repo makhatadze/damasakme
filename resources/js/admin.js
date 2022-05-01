@@ -5,7 +5,7 @@ import { InertiaProgress } from '@inertiajs/progress'
 import 'bootstrap'
 
 createInertiaApp({
-  resolve: name => require(`./App/Pages/${name}`),
+  resolve: name => require(`./Admin/Pages/${name}`),
   setup({ el, App, props }) {
     render(<App {...props} />, el)
   },

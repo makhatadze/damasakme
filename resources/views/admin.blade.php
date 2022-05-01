@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="{{ mix('/css/app.css') }}" rel="stylesheet" />
+    <link href="{{ mix('/css/admin.css') }}" rel="stylesheet" />
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
@@ -18,7 +18,7 @@
 
     @routes
 
-    <script src="{{ mix('/js/app.js') }}" defer></script>
+    <script src="{{ mix('/js/admin.js') }}" defer></script>
   </head>
   <body class="g-sidenav-show   bg-gray-100">
     @inertia

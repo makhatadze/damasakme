@@ -1,0 +1,10 @@
+@import "vendor/bootstrap.min.css";
+@import "vendor/css.css";
+@import "vendor/custom.css";
+@import "vendor/menu.css";
+@import "vendor/style.css";
+/*@import "vendor/vendors.css";*/
+
+.cursor-pointer {
+    cursor: pointer;
+}
