@@ -14,6 +14,7 @@ use Astrotomic\Translatable\Translatable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -48,10 +49,29 @@ class CityArea extends Model
     ];
 
     /**
+     * @return void
+     */
+    protected static function booted() {
+        static::deleting( function ($model) {
+            $model->getCityAreaDistricts->each(function($item){ //edit after comment
+                $item->delete();
+            });
+        });
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function getCity(): HasOne
     {
         return $this->hasOne(City::class, 'id', 'city');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function getCityAreaDistricts(): HasMany
+    {
+        return $this->hasMany(CityAreaDistrict::class, 'city_area', 'id');
     }
 }

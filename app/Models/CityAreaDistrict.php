@@ -13,6 +13,7 @@ use App\Models\Translations\CityAreaDistrictTranslation;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CityAreaDistrict extends Model
@@ -36,4 +37,12 @@ class CityAreaDistrict extends Model
     public array $translatedAttributes = [
         'title',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function getCityArea(): HasOne
+    {
+        return $this->hasOne(CityArea::class, 'id', 'city_area');
+    }
 }

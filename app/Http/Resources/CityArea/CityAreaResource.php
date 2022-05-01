@@ -20,7 +20,7 @@ class CityAreaResource extends JsonResource
      *
      * @return array
      */
-    #[ArrayShape(['id' => "mixed", 'title' => "mixed", 'joined' => "mixed", 'translations' => "mixed"])] public function toArray($request): array
+    #[ArrayShape(['id' => "mixed", 'city' => "mixed", 'city_title' => "mixed", 'title' => "mixed", 'joined' => "mixed", 'translations' => "\Illuminate\Http\Resources\Json\AnonymousResourceCollection"])] public function toArray($request): array
     {
         return [
             'id' => $this->id,

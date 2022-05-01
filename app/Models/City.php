@@ -48,10 +48,21 @@ class City extends Model implements TranslatableContract
     ];
 
     /**
+     * @return void
+     */
+    protected static function booted() {
+        static::deleting( function ($model) {
+            $model->getCityAreas->each(function($item){ //edit after comment
+                $item->delete();
+            });
+        });
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function cityAreas(): HasMany
+    public function getCityAreas(): HasMany
     {
-        return $this->hasMany(CityArea::class, 'city_id', 'id');
+        return $this->hasMany(CityArea::class, 'city', 'id');
     }
 }
