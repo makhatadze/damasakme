@@ -8,44 +8,57 @@
  */
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * App\Models\File
- *
- * @property int $id
- * @property string $name
- * @property string $path
- * @property string $format
- * @property string $type
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property Carbon|null $deleted_at
- */
 class File extends Model
 {
-    use HasFactory, SoftDeletes;
 
-    /** @var string */
-    protected $table = 'files';
+    use SoftDeletes;
 
-    /** @var string[] */
-    protected $fillable = [
-        'name',
-        'path',
-        'format',
-        'type',
-    ];
-
+    const ORIGINAL_FILE_FOLDER_NAME = 'original';
 
     /**
-     * Get the parent fileable model (user or post).
+     * @var string
      */
-    public function fileable()
+    protected $table = 'files';
+
+    /**
+     * @var array
+     */
+    protected $fillable = [
+        'src',
+        'type',
+        'file_type',
+        'imageable_id',
+        'imageable_type'
+    ];
+
+    /**
+     * @var array
+     */
+    protected $dates = [
+        'deleted_at'
+    ];
+
+    protected $appends = [
+        'fullUrl'
+    ];
+
+    /**
+     * Get the owning fileable model.
+     */
+    public function fileable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
     }
+
+    /**
+     * @return string
+     */
+    public function getFullUrlAttribute(): string
+    {
+        return asset('storage/' . $this->src);
+    }
+
 }

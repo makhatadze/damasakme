@@ -93,6 +93,14 @@ export default function Sidebar() {
                         </Link>
                     </li>
                     <li className="nav-item">
+                        <Link className={`${route().current('about.*') && 'active'} nav-link`} href={route('about.edit')}>
+                            <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i className="ni ni-paper-diploma text-warning text-sm opacity-10" />
+                            </div>
+                            <span className="nav-link-text ms-1">{__('About')}</span>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
                         <Link className="nav-link " as='a' method='post' href={route('logout')}>
                             <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i className="fas fa-sign-out-alt text-danger text-sm opacity-10"/>

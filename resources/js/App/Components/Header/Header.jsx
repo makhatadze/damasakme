@@ -43,14 +43,14 @@ const Header = () => {
                             <ul className={`cd-primary-nav ${showMenu ? "fade-in" : ""}`}>
 
                                 <li>
-                                    <a href="about.html" className="animated_link">
-                                        About Us
-                                    </a>
+                                    <Link href={route('about')} className="animated_link">
+                                        {__('About Us')}
+                                    </Link>
                                 </li>
                                 <li>
-                                    <a href="contact-us.html" className="animated_link">
-                                        Contact Us
-                                    </a>
+                                    <Link href={route('contact')} className="animated_link">
+                                        {__('Contact Us')}
+                                    </Link>
                                 </li>
 
                             </ul>

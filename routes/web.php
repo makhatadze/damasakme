@@ -20,6 +20,7 @@ Route::middleware(['setLocale'])
     ->group(function () {
         Route::get('/', HomeController::class)->name('home');
         Route::get('/about', \App\Http\Controllers\App\AboutController::class)->name('about');
+        Route::get('/contact', \App\Http\Controllers\App\ContactController::class)->name('contact');
 
 
         Route::get('en', function () {
@@ -47,6 +48,10 @@ Route::middleware(['setLocale'])
                     Route::apiResource('city-areas', CityAreaController::class);
                     Route::apiResource('city-area-districts', CityAreaDistrictController::class);
 
+                    Route::get('about', [\App\Http\Controllers\Back\AboutController::class,'edit'])->name('about.edit');
+                    Route::put('about/{about}', [\App\Http\Controllers\Back\AboutController::class,'update'])->name('about.update');
+
+
                     Route::get('profile', ProfileController::class)->name('profile');
                 });
 
@@ -64,3 +69,4 @@ Route::middleware(['setLocale'])
     });
 
 
+Route::post('files/upload_editor',[\App\Http\Controllers\FileController::class,'uploadForEditor']);

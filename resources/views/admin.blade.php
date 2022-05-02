@@ -15,6 +15,7 @@
     <link href="/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="/css/argon-dashboard.css?v=2.0.0" rel="stylesheet" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @routes
 
