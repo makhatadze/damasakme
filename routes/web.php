@@ -8,6 +8,7 @@ use App\Http\Controllers\Back\CityAreaDistrictController;
 use App\Http\Controllers\Back\CityController;
 use App\Http\Controllers\Back\DashboardController;
 use App\Http\Controllers\Back\DegreeController;
+use App\Http\Controllers\Back\DepartmentController;
 use App\Http\Controllers\Back\JobsController;
 use App\Http\Controllers\Back\UserController;
 use App\Http\Controllers\HomeController;
@@ -41,6 +42,7 @@ Route::middleware(['setLocale'])
                     Route::apiResource('users', UserController::class);
                     Route::apiResource('jobs', JobsController::class);
                     Route::apiResource('degrees', DegreeController::class);
+                    Route::apiResource('departments', DepartmentController::class);
                     Route::apiResource('cities', CityController::class);
                     Route::apiResource('city-areas', CityAreaController::class);
                     Route::apiResource('city-area-districts', CityAreaDistrictController::class);
@@ -52,11 +54,11 @@ Route::middleware(['setLocale'])
                     Route::get('login', [LoginController::class, 'create'])->name('login');
                     Route::post('login', [LoginController::class, 'store']);
 
-            Route::get('register', [RegisterController::class, 'create'])->name('register');
-            Route::post('register', [RegisterController::class, 'store']);
+                    Route::get('register', [RegisterController::class, 'create'])->name('register');
+                    Route::post('register', [RegisterController::class, 'store']);
 //
-            Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
-            Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+                    Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+                    Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
                 });
             });
     });
