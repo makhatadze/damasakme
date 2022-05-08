@@ -3,6 +3,8 @@ import React, {useEffect, useState} from 'react'
 import Base from '../../Layouts/Base'
 import {Tab, Tabs} from "react-bootstrap";
 import Editor from "../../Components/Ckeditor/Editor";
+import ImageUploading from "react-images-uploading";
+import "./index.css"
 
 export default function Profile(props) {
     const {about} = usePage().props;
@@ -72,6 +74,18 @@ export default function Profile(props) {
         });
     }, [about]);
 
+
+    const [images, setImages] = React.useState([
+        {
+            'data_url': 'wqweqweq'
+        }
+    ]);
+    const maxNumber = 1;
+
+    const onImageChange = (imageList) => {
+        setImages(imageList);
+    };
+
     return (
         <>
             <div>
@@ -82,6 +96,52 @@ export default function Profile(props) {
                                 <form onSubmit={onSubmit}>
                                     <div className="card-body">
                                         <p className="text-uppercase text-sm">{__('About Information')}</p>
+                                        <ImageUploading
+                                            multiple
+                                            value={images}
+                                            onChange={onImageChange}
+                                            maxNumber={maxNumber}
+                                            dataURLKey="data_url"
+                                        >
+                                            {({
+                                                  imageList,
+                                                  onImageUpload,
+                                                  onImageRemoveAll,
+                                                  onImageUpdate,
+                                                  onImageRemove,
+                                                  isDragging,
+                                                  dragProps
+                                              }) => (
+                                                // write your building UI
+                                                <div className="upload__image-wrapper">
+                                                    <button
+                                                        type={'button'}
+                                                        style={isDragging ? { color: "red" } : null}
+                                                        onClick={onImageUpload}
+                                                        {...dragProps}
+                                                    >
+                                                        Click or Drop here
+                                                    </button>
+                                                    &nbsp;
+                                                    <button
+                                                        type={'button'}
+                                                        onClick={onImageRemoveAll}>Remove all images</button>
+                                                    {imageList.map((image, index) => (
+                                                        <div key={index} className="image-item">
+                                                            <img src={image.data_url} alt="" width="100" />
+                                                            <div className="image-item__btn-wrapper">
+                                                                <button
+                                                                    type={'button'}
+                                                                    onClick={() => onImageUpdate(index)}>Update</button>
+                                                                <button
+                                                                    type={'button'}
+                                                                    onClick={() => onImageRemove(index)}>Remove</button>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </ImageUploading>
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <Tabs className="mb-3">
