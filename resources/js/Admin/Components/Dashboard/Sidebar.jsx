@@ -89,6 +89,22 @@ export default function Sidebar() {
                             <span className="nav-link-text ms-1">{__('About')}</span>
                         </Link>
                     </li>
+                    <li className="nav-item">
+                        <Link className={`${route().current('term.*') && 'active'} nav-link`} href={route('term.edit')}>
+                            <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i className="ni ni-paper-diploma text-warning text-sm opacity-10" />
+                            </div>
+                            <span className="nav-link-text ms-1">{__('Term')}</span>
+                        </Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className={`${route().current('social.*') && 'active'} nav-link`} href={route('social.edit')}>
+                            <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i className="ni ni-paper-diploma text-warning text-sm opacity-10" />
+                            </div>
+                            <span className="nav-link-text ms-1">{__('Social')}</span>
+                        </Link>
+                    </li>
                     <li className="nav-item mt-3">
                         <h6 className="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Settings</h6>
                     </li>

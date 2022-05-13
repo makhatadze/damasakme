@@ -53,14 +53,14 @@ ol {
 }
 
 a {
-    color: #EF0A0A;
-    text-decoration: none;
-    -moz-transition: all 0.3s ease-in-out;
-    -o-transition: all 0.3s ease-in-out;
-    -webkit-transition: all 0.3s ease-in-out;
-    -ms-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    outline: none
+    color: #EF0A0A !important;
+    text-decoration: none !important;
+    -moz-transition: all 0.3s ease-in-out !important;
+    -o-transition: all 0.3s ease-in-out  !important;
+    -webkit-transition: all 0.3s ease-in-out  !important;
+    -ms-transition: all 0.3s ease-in-out  !important;
+    transition: all 0.3s ease-in-out  !important;
+    outline: none !important;
 }
 
 a:hover,

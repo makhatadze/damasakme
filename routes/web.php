@@ -56,6 +56,11 @@ Route::middleware(['setLocale'])
                     Route::get('about', [\App\Http\Controllers\Back\AboutController::class,'edit'])->name('about.edit');
                     Route::put('about/{about}', [\App\Http\Controllers\Back\AboutController::class,'update'])->name('about.update');
 
+                    Route::get('term', [\App\Http\Controllers\Back\TermController::class,'edit'])->name('term.edit');
+                    Route::put('term/{term}', [\App\Http\Controllers\Back\TermController::class,'update'])->name('term.update');
+
+                    Route::get('social', [\App\Http\Controllers\Back\SocialController::class,'edit'])->name('social.edit');
+                    Route::put('social/{social}', [\App\Http\Controllers\Back\SocialController::class,'update'])->name('social.update');
 
                     Route::get('profile', ProfileController::class)->name('profile');
                 });

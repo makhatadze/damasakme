@@ -1,17 +1,20 @@
-import {Link} from '@inertiajs/inertia-react';
+import {Link, useForm} from '@inertiajs/inertia-react';
 import React, {useState} from 'react'
 import Dialog from '../../Components/Dashboard/Dialog';
 import Base from '../../Layouts/Base'
 import useDialog from '../../Hooks/useDialog';
 import CreateUser from '../../Components/Dashboard/Users/CreateUser';
-import EditUser from '../../Components/Dashboard/Users/EditUser';
 import {Inertia} from '@inertiajs/inertia';
 import ViewApplication from "../../Components/Dashboard/Application/ViewApplication";
+import {Button, Collapse, Form} from "react-bootstrap";
 
 export default function Index(props) {
 
     const {data: guests, links, meta} = props.guests;
-    console.log(guests)
+    const {cities, jobs, degrees} = props;
+
+    const [open, setOpen] = useState(false);
+
     const [state, setState] = useState([])
     const [addDialogHandler, addCloseTrigger, addTrigger] = useDialog()
     const [UpdateDialogHandler, UpdateCloseTrigger, UpdateTrigger] = useDialog()
@@ -31,6 +34,55 @@ export default function Index(props) {
             route('applications.destroy', state.id),
             {onSuccess: () => destroyCloseTrigger()});
     }
+
+
+    const {data, setData, post, reset, errors} = useForm({
+        street: "",
+        age: "",
+        city: "",
+        degree: "",
+        area: ""
+    });
+
+    const [selectedCity, setSelectedCity] = useState(null);
+    const [selectedArea, setSelectedArea] = useState(null);
+
+    const onChange = (e) => setData({ ...data, [e.target.id]: e.target.value });
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        post(route('applications.index'), {
+            data,
+            onSuccess: () => {
+                reset(),
+                    close()
+            },
+        });
+    }
+
+    const onCityChange = (e) => {
+        setData({
+            ...data,
+            city: e.target.value,
+            area: null,
+            district: null
+        })
+
+        let city = cities.find((el) => el.id == e.target.value)
+        setSelectedCity(city ?? null)
+        setSelectedArea(null)
+    };
+
+    const onAreaChange = (e) => {
+        setData({
+            ...data,
+            area: e.target.value,
+            district: null
+        })
+
+        let area = selectedCity.get_city_areas.find((el) => el.id == e.target.value)
+        setSelectedArea(area ?? null)
+    };
 
     return (
         <>
@@ -59,6 +111,143 @@ export default function Index(props) {
                                 <div className="row">
                                     <div className="col-md-6">
                                         <h6>{__('Applicants table')}</h6>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col">
+                                        <>
+                                            <Button
+                                                onClick={() => setOpen(!open)}
+                                                className="btn btn-vimeo"
+                                                aria-controls="example-collapse-text"
+                                                aria-expanded={open}
+                                            >
+                                                Filter
+                                            </Button>
+                                            <Collapse in={open}>
+                                                <form onSubmit={onSubmit}>
+                                                   <div className="row">
+                                                       <div className="col-md-3 col-sm-6">
+                                                           <div className="form-group">
+                                                               <input
+                                                                   type="text"
+                                                                   className="form-control"
+                                                                   name='street'
+                                                                   value={data.street}
+                                                                   onChange={onChange}
+                                                                   id="street"
+                                                                   placeholder={__('Address')}
+                                                               />
+                                                           </div>
+                                                       </div>
+                                                       <div className="col-md-3 col-sm-6">
+                                                           <div className="form-group">
+                                                               <input
+                                                                   type="text"
+                                                                   className="form-control"
+                                                                   name='age'
+                                                                   value={data.age}
+                                                                   onChange={onChange}
+                                                                   id="age"
+                                                                   placeholder={__('Age')}
+                                                               />
+                                                           </div>
+                                                       </div>
+                                                       <div className="col-md-3 col-sm-6">
+                                                           <Form.Select name="gender" value={data.gender} id="gender"
+                                                                        onChange={onChange}
+                                                                        aria-label="Select a gender">
+                                                               <option value={''}>{__('Select a gender')}</option>
+                                                               <option value={'1'}>{__('Male')}</option>
+                                                               <option value={'0'}>{__('Female')}</option>
+                                                           </Form.Select>
+                                                       </div>
+                                                   </div>
+                                                   <div className="row">
+                                                       <div className="col-md-3 col-sm-6">
+                                                           <Form.Select  value={data.city} id="city"
+                                                                        onChange={onCityChange}
+                                                                        aria-label="Select a city">
+                                                               <option
+                                                                   value={''}>{__('select_a_city')}</option>
+                                                               {
+                                                                   cities.map((option, index) => {
+                                                                       return (<option key={index}
+                                                                                       value={option.id}>{option.title}</option>)
+                                                                   })
+                                                               }
+                                                           </Form.Select>
+                                                       </div>
+                                                       {
+                                                           data.city && selectedCity && selectedCity.get_city_areas.length ? (
+                                                               <div className="col-md-3 col-sm-6">
+                                                                   <div className="form-group">
+                                                                       <Form.Select
+
+                                                                           value={data.city_area}
+                                                                           id="city_area"
+                                                                           onChange={onAreaChange}
+                                                                           aria-label="select_a_area">
+                                                                           {
+                                                                               selectedCity.get_city_areas.map((option, index) => {
+                                                                                   return (<option
+                                                                                       key={`${index}-${option.id}`}
+                                                                                       value={option.id}>{option.title}</option>)
+                                                                               })
+                                                                           }
+                                                                       </Form.Select>
+                                                                       <div className="invalid-feedback">
+                                                                           {__('Please_select_area')}
+                                                                       </div>
+                                                                   </div>
+                                                               </div>
+                                                           ) : null
+                                                       }
+                                                       {
+                                                           data.area && selectedArea && selectedArea.get_city_area_districts.length ? (
+                                                               <div className="col-md-3 col-sm-6">
+                                                                   <div className="form-group">
+                                                                       <Form.Select
+                                                                            value={data.city_area_district}
+                                                                           id="city_area_district"
+                                                                           onChange={onChange}
+                                                                           aria-label="Select_a_district">
+                                                                           {
+                                                                               selectedArea.get_city_area_districts.map((option, index) => {
+                                                                                   return (<option
+                                                                                       key={`${index}-${option.id}`}
+                                                                                       value={option.id}>{option.title}</option>)
+                                                                               })
+                                                                           }
+                                                                       </Form.Select>
+                                                                       <div className="invalid-feedback">
+                                                                           {__('please_select_district')}
+                                                                       </div>
+                                                                   </div>
+                                                               </div>
+                                                           ) : null
+                                                       }
+                                                   </div>
+                                                    <div className="row my-2">
+                                                        <div className="col-md-3 col-sm-6">
+                                                            <Form.Select value={data.degree} id="degree"
+                                                                         onChange={onChange}
+                                                                         aria-label="Select a Degree">
+                                                                <option
+                                                                    value={''}>{__('select_a_degree')}</option>
+                                                                {
+                                                                    degrees.map((option, index) => {
+                                                                        return (<option key={index}
+                                                                                        value={option.id}>{option.title}</option>)
+                                                                    })
+                                                                }
+                                                            </Form.Select>
+                                                        </div>
+
+                                                    </div>
+                                                </form>
+                                            </Collapse>
+                                        </>
                                     </div>
                                 </div>
                             </div>

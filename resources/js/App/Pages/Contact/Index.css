@@ -1,0 +1,6 @@
+.contact-link {
+    color: #EF0A0A !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease-in-out !important;
+    outline: none !important;
+}

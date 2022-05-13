@@ -10,7 +10,10 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Guest\GuestResource;
+use App\Models\City;
+use App\Models\Degree;
 use App\Models\Guest;
+use App\Models\Job;
 use Illuminate\Http\Request;
 use function inertia;
 
@@ -47,8 +50,17 @@ class ApplicationController extends Controller
 
         $guests = GuestResource::collection(Guest::with('city','educations')->latest()->paginate(10));
 
+        $cities = City::with('translations', 'getCityAreas', 'getCityAreas.getCityAreaDistricts')->get()->toArray();
+
+        $jobs = Job::with('translations')->get()->toArray();
+
+        $degrees = Degree::with('translations')->get()->toArray();
+
         return inertia('Applications/Index', [
             'guests' => $guests,
+            'jobs' => $jobs,
+            'degrees' => $degrees,
+            'cities' => $cities
         ]);
     }
 

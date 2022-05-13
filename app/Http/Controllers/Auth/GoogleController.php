@@ -16,7 +16,7 @@ class GoogleController extends Controller
         return;
         return Socialite::driver('google')->stateless()->redirect();
     }
-    
+
     public function handleGoogleCallback()
     {
         return;
@@ -25,27 +25,27 @@ class GoogleController extends Controller
         } catch (\Exception $e) {
             if($e->getCode() == 400) {
                 return to_route('register')->with([
-                    'type' => 'error', 
+                    'type' => 'error',
                     'message' => 'permission is not allowed, google auth is canceled'
                 ]);
-            } 
+            }
             // return $e->getCode() . ':' . $e->getMessage();
         }
 
-        try {    
+        try {
             $user = Socialite::driver('google')->stateless()->user();
-    
+
             $finduser = User::where('google_id', $user->id)->first();
-    
+
             if($finduser){
                 session()->regenerate();
                 Auth::login($finduser);
-    
-                return to_route('dashboard')->with([
+
+                return to_route('applications.index')->with([
                     'type' => 'success',
                     'message' => 'You are logged in.'
                 ]);
-    
+
             }else{
                 $newUser = User::create([
                     'name' => $user->name,
@@ -56,15 +56,15 @@ class GoogleController extends Controller
                     'google_expires_in' => $user->expiresIn,
                     'password' => encrypt('123456')
                 ]);
-    
+
                 Auth::login($newUser);
-    
-                return redirect()->route('dashboard')->with([
+
+                return redirect()->route('applications.index')->with([
                     'type' => 'success',
                     'message' => 'You are logged in.'
                 ]);
             }
-    
+
         } catch (Exception $e) {
             // dd($e->getMessage());
             return to_route('register')->with([

@@ -9,6 +9,8 @@
 namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AboutResource;
+use App\Models\About;
 use Illuminate\Http\Request;
 
 class AboutController extends Controller
@@ -22,6 +24,10 @@ class AboutController extends Controller
      */
     public function __invoke(Request $request): \Inertia\Response|\Inertia\ResponseFactory
     {
-        return inertia('About/Index');
+        $about = new AboutResource(About::with('translations')->first());
+
+        return inertia('About/Index',[
+            'about' => $about
+        ]);
     }
 }

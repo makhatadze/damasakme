@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import Loading from "../../Components/Loading/Loading";
 import Footer from "../../Components/Footer/Footer";
 import Header from "../../Components/Header/Header";
+import "./Index.css"
 
 export default function Index(props) {
     const departments = props.departments
@@ -31,9 +32,9 @@ export default function Index(props) {
                                                 <li>
                                                     {department.title}
                                                     <br/>
-                                                    <a href={`tel://${department.phone}`}>{department.phone}</a>
+                                                    <a className="contact-link" href={`tel://${department.phone}`}>{department.phone}</a>
                                                     <br/>
-                                                    <a href={`mailto:${department.email}`}>{department.email}</a>
+                                                    <a className="contact-link" href={`mailto:${department.email}`}>{department.email}</a>
                                                     <br/>
                                                     <small>{department.working}</small>
                                                 </li>
