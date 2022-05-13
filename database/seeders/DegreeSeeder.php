@@ -18,7 +18,6 @@ class DegreeSeeder extends Seeder
      * @var string[]
      */
     protected array $degrees = [
-        'საშუალო',
         'ატესტატი',
         'ბაკალავრი',
         'მაგისტრატურა',

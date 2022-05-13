@@ -327,7 +327,7 @@ a.btn_1.yellow:hover,
 }
 
 .row-height {
-    height: 100vh
+    min-height: 100vh
 }
 
 @media (max-width: 991px) {

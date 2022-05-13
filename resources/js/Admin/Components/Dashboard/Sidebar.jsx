@@ -15,27 +15,16 @@ export default function Sidebar() {
             <div className="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
                 <ul className="navbar-nav">
                     <li className="nav-item">
-                        <Link className={`${route().current('dashboard') && 'active'} nav-link`} href={route('dashboard')}>
-                            <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i className="ni ni-tv-2 text-primary text-sm opacity-10" />
-                            </div>
-                            <span className="nav-link-text ms-1">Dashboard</span>
-                        </Link>
-                    </li>                    
-                    <li className="nav-item mt-3">
-                        <h6 className="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Settings</h6>
-                    </li>
-                    <li className="nav-item">
-                        <Link className={`${route().current('profile') && 'active'} nav-link`} href={route('profile')}>
+                        <Link className={`${route().current('applications.*') && 'active'} nav-link`} href={route('applications.index')}>
                             <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                                 <i className="ni ni-single-02 text-dark text-sm opacity-10" />
                             </div>
-                            <span className="nav-link-text ms-1">{__('Profile')}</span>
+                            <span className="nav-link-text ms-1">{__('Applications')}</span>
                         </Link>
                     </li>
                     <li className="nav-item mt-3">
                         <h6 className="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">{__('Manage')}</h6>
-                    </li>                    
+                    </li>
                     <li className="nav-item">
                         <Link className={`${route().current('users.*') && 'active'} nav-link`} href={route('users.index')}>
                             <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -100,6 +89,17 @@ export default function Sidebar() {
                             <span className="nav-link-text ms-1">{__('About')}</span>
                         </Link>
                     </li>
+                    <li className="nav-item mt-3">
+                        <h6 className="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Settings</h6>
+                    </li>
+                    <li className="nav-item">
+                        <Link className={`${route().current('profile') && 'active'} nav-link`} href={route('profile')}>
+                            <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i className="ni ni-single-02 text-dark text-sm opacity-10" />
+                            </div>
+                            <span className="nav-link-text ms-1">{__('Profile')}</span>
+                        </Link>
+                    </li>
                     <li className="nav-item">
                         <Link className="nav-link " as='a' method='post' href={route('logout')}>
                             <div className="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -109,7 +109,7 @@ export default function Sidebar() {
                         </Link>
                     </li>
                 </ul>
-            </div>                
+            </div>
         </aside>
     )
 }

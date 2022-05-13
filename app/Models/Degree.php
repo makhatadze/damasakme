@@ -16,11 +16,13 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 /**
  * App\Models\Degree
  *
  * @property int $id
+ * @property boolean $type
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
@@ -35,6 +37,7 @@ class Degree extends Model
     /** @var string[] */
     protected $fillable = [
         'title',
+        'type'
     ];
 
     /** @var string */
@@ -44,4 +47,12 @@ class Degree extends Model
     public array $translatedAttributes = [
         'title',
     ];
+
+    public function guest()
+    {
+        return $this->belongsToMany(Guest::class);
+    }
+    public static function getEdus($id=null){
+        return DB::table('guest_educations')->where('guest_id','=',$id)->get();
+    }
 }

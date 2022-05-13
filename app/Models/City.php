@@ -59,7 +59,7 @@ class City extends Model implements TranslatableContract
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function getCityAreas(): HasMany
     {

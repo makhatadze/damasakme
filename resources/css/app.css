@@ -8,3 +8,53 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+.none {
+    display: none;
+}
+.none-important {
+    display: none !important;
+}
+
+.job-expanded {
+    background-color:#8d54a1 !important;
+    color:#ffffff !important;
+}
+
+.job-label {
+    font-size: 0.9375rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-start;
+}
+
+.job-accordion-body {
+    padding: 0 !important;
+}
+
+.form-control:focus{
+    border-color: #1dbe72 !important;
+    box-shadow: 0 0 0 0.01rem #1dbe72 !important;
+}
+
+.form-select:focus{
+    border-color: #1dbe72 !important;
+    box-shadow: 0 0 0 0.01rem #1dbe72 !important;
+}
+
+
+.job-header {
+    position: relative;
+}
+.job-remove-icon {
+    position: absolute;
+    right: -25px;
+    top: 28%;
+    cursor: pointer;
+}
+
+.conditions {
+    color: red;
+    text-decoration: none;
+}

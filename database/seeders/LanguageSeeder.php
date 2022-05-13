@@ -17,7 +17,7 @@ class LanguageSeeder extends Seeder
     protected $languages = [
         [
             'title' => 'ქართული',
-            'locale' => 'ge',
+            'locale' => 'ka',
             'status' => true,
             'default' => true
         ],
