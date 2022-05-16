@@ -55,11 +55,6 @@ class HomeController extends Controller
      */
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
-        return back()->with([
-            'type' => 'success',
-            'message' => __('About has been updated'),
-        ]);
-
         try {
             $guests = new Guest();
             $guests->name = $request['first_name'];
