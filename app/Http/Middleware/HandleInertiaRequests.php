@@ -11,6 +11,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Language;
 use App\Models\LanguageLine;
+use App\Models\Social;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -69,6 +70,7 @@ class HandleInertiaRequests extends Middleware
             },
             'locales' => $this->getLocales(),
             'localizations' => $this->languageItems(),
+            'social' => Social::first()
         ]);
     }
 

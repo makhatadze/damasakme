@@ -11,9 +11,9 @@ import {Button, Collapse, Form} from "react-bootstrap";
 export default function Index(props) {
 
     const {data: guests, links, meta} = props.guests;
-    const {cities, jobs, degrees} = props;
+    const {cities, jobs, degrees, filter, filters} = props;
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(filter ?? false);
 
     const [state, setState] = useState([])
     const [addDialogHandler, addCloseTrigger, addTrigger] = useDialog()
@@ -36,12 +36,12 @@ export default function Index(props) {
     }
 
 
-    const {data, setData, post, reset, errors} = useForm({
-        street: "",
-        age: "",
-        city: "",
-        degree: "",
-        area: ""
+    const {data, setData, get,post, reset, errors} = useForm({
+        street: filters.street ?? "",
+        age: filters.age ?? "",
+        city: filters.city ?? "",
+        degree: filters.degree ?? "",
+        area: filters.area ?? ""
     });
 
     const [selectedCity, setSelectedCity] = useState(null);
@@ -51,13 +51,33 @@ export default function Index(props) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        post(route('applications.index'), {
+        get(route('applications.index'), {
             data,
             onSuccess: () => {
                 reset(),
                     close()
             },
         });
+    }
+
+    const exportExcel = (e) => {
+        get(route('applications.export'), {
+            data,
+            onSuccess: () => {
+                reset(),
+                    close()
+            },
+        });
+    }
+
+    const clearFilter = () => {
+        setData({
+            street: "",
+            age: "",
+            city: "",
+            degree: "",
+            area: ""
+        })
     }
 
     const onCityChange = (e) => {
@@ -116,14 +136,17 @@ export default function Index(props) {
                                 <div className="row">
                                     <div className="col">
                                         <>
-                                            <Button
-                                                onClick={() => setOpen(!open)}
-                                                className="btn btn-vimeo"
-                                                aria-controls="example-collapse-text"
-                                                aria-expanded={open}
-                                            >
-                                                Filter
-                                            </Button>
+                                            <div className="d-flex gap-2">
+                                                <Button
+                                                    onClick={() => setOpen(!open)}
+                                                    className="btn btn-vimeo"
+                                                    aria-controls="example-collapse-text"
+                                                    aria-expanded={open}
+                                                >
+                                                    Filter
+                                                </Button>
+                                                <a className="btn btn-vimeo" href={route('export.applications',data)} >{__('Export')}</a>
+                                            </div>
                                             <Collapse in={open}>
                                                 <form onSubmit={onSubmit}>
                                                    <div className="row">
@@ -143,7 +166,7 @@ export default function Index(props) {
                                                        <div className="col-md-3 col-sm-6">
                                                            <div className="form-group">
                                                                <input
-                                                                   type="text"
+                                                                   type="number"
                                                                    className="form-control"
                                                                    name='age'
                                                                    value={data.age}
@@ -158,8 +181,8 @@ export default function Index(props) {
                                                                         onChange={onChange}
                                                                         aria-label="Select a gender">
                                                                <option value={''}>{__('Select a gender')}</option>
-                                                               <option value={'1'}>{__('Male')}</option>
-                                                               <option value={'0'}>{__('Female')}</option>
+                                                               <option value={'Male'}>{__('Male')}</option>
+                                                               <option value={'Female'}>{__('Female')}</option>
                                                            </Form.Select>
                                                        </div>
                                                    </div>
@@ -243,7 +266,21 @@ export default function Index(props) {
                                                                 }
                                                             </Form.Select>
                                                         </div>
+                                                        <div className="col-md-6 col-sm-12 d-flex gap-2">
+                                                            <Button
+                                                                className="btn btn-info"
 
+                                                                type="submit">
+                                                                {__('Do_Filter')}
+                                                            </Button>
+                                                            <Button
+                                                                className="ml-2 btn btn-light"
+                                                                type="button"
+                                                                onClick={clearFilter}
+                                                            >
+                                                                {__('Clear_Filter')}
+                                                            </Button>
+                                                        </div>
                                                     </div>
                                                 </form>
                                             </Collapse>

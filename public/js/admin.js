@@ -11808,15 +11808,19 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 function Index(props) {
+  var _filters$street, _filters$age, _filters$city, _filters$degree, _filters$area;
+
   var _props$guests = props.guests,
       guests = _props$guests.data,
       links = _props$guests.links,
       meta = _props$guests.meta;
   var cities = props.cities,
       jobs = props.jobs,
-      degrees = props.degrees;
+      degrees = props.degrees,
+      filter = props.filter,
+      filters = props.filters;
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(filter !== null && filter !== void 0 ? filter : false),
       _useState2 = _slicedToArray(_useState, 2),
       open = _useState2[0],
       setOpen = _useState2[1];
@@ -11863,14 +11867,15 @@ function Index(props) {
   };
 
   var _useForm = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_0__.useForm)({
-    street: "",
-    age: "",
-    city: "",
-    degree: "",
-    area: ""
+    street: (_filters$street = filters.street) !== null && _filters$street !== void 0 ? _filters$street : "",
+    age: (_filters$age = filters.age) !== null && _filters$age !== void 0 ? _filters$age : "",
+    city: (_filters$city = filters.city) !== null && _filters$city !== void 0 ? _filters$city : "",
+    degree: (_filters$degree = filters.degree) !== null && _filters$degree !== void 0 ? _filters$degree : "",
+    area: (_filters$area = filters.area) !== null && _filters$area !== void 0 ? _filters$area : ""
   }),
       data = _useForm.data,
       setData = _useForm.setData,
+      get = _useForm.get,
       post = _useForm.post,
       reset = _useForm.reset,
       errors = _useForm.errors;
@@ -11891,11 +11896,30 @@ function Index(props) {
 
   var onSubmit = function onSubmit(e) {
     e.preventDefault();
-    post(route('applications.index'), {
+    get(route('applications.index'), {
       data: data,
       onSuccess: function onSuccess() {
         reset(), close();
       }
+    });
+  };
+
+  var exportExcel = function exportExcel(e) {
+    get(route('applications.export'), {
+      data: data,
+      onSuccess: function onSuccess() {
+        reset(), close();
+      }
+    });
+  };
+
+  var clearFilter = function clearFilter() {
+    setData({
+      street: "",
+      age: "",
+      city: "",
+      degree: "",
+      area: ""
     });
   };
 
@@ -11979,14 +12003,21 @@ function Index(props) {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                   className: "col",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
-                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_9__["default"], {
-                      onClick: function onClick() {
-                        return setOpen(!open);
-                      },
-                      className: "btn btn-vimeo",
-                      "aria-controls": "example-collapse-text",
-                      "aria-expanded": open,
-                      children: "Filter"
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+                      className: "d-flex gap-2",
+                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                        onClick: function onClick() {
+                          return setOpen(!open);
+                        },
+                        className: "btn btn-vimeo",
+                        "aria-controls": "example-collapse-text",
+                        "aria-expanded": open,
+                        children: "Filter"
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("a", {
+                        className: "btn btn-vimeo",
+                        href: route('export.applications', data),
+                        children: __('Export')
+                      })]
                     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_10__["default"], {
                       "in": open,
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("form", {
@@ -12012,7 +12043,7 @@ function Index(props) {
                             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                               className: "form-group",
                               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("input", {
-                                type: "text",
+                                type: "number",
                                 className: "form-control",
                                 name: "age",
                                 value: data.age,
@@ -12033,10 +12064,10 @@ function Index(props) {
                                 value: '',
                                 children: __('Select a gender')
                               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
-                                value: '1',
+                                value: 'Male',
                                 children: __('Male')
                               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
-                                value: '0',
+                                value: 'Female',
                                 children: __('Female')
                               })]
                             })
@@ -12101,9 +12132,9 @@ function Index(props) {
                               })]
                             })
                           }) : null]
-                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
                           className: "row my-2",
-                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
                             className: "col-md-3 col-sm-6",
                             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_11__["default"].Select, {
                               value: data.degree,
@@ -12120,7 +12151,19 @@ function Index(props) {
                                 }, index);
                               })]
                             })
-                          })
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
+                            className: "col-md-6 col-sm-12 d-flex gap-2",
+                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                              className: "btn btn-info",
+                              type: "submit",
+                              children: __('Do_Filter')
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_9__["default"], {
+                              className: "ml-2 btn btn-light",
+                              type: "button",
+                              onClick: clearFilter,
+                              children: __('Clear_Filter')
+                            })]
+                          })]
                         })]
                       })
                     })]

@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\DB;
 class Guest extends Model
 {
     use HasFactory;
-    protected $table='guests';
-    protected $fillable=[
+
+    protected $table = 'guests';
+    protected $fillable = [
         'name',
         'lastname',
         'birthday',
@@ -31,92 +32,81 @@ class Guest extends Model
         'end_date',
         'jobsarray',
         'created_at'];
-    protected $casts=[
-        'jobsarray'=>'json',
+    protected $casts = [
+        'jobsarray' => 'json',
     ];
 
-    public static function getGuests()
+    public static function getGuests($guests)
     {
-            $array=[];
-            $guests = Guest::query();
-            if (old('gender')!=null){
-                $guests->where('gender', old('gender'));
-            }
-            if (old('street')!=null){
-                $guests->where('street','like', '%'.old('street'));
-            }
-            if (old('education')!=null){
-                $guests->whereIn('id', array_values(Guest::getGuestFromEdu(old('education'))));
-            }
-            if (old('jobs')!=null){
-                $guests->whereIn('id', array_values(Guest::getGuestFromJob(old('jobs'))));
-            }
-            if (old('area')!=null){
-                $guests->where('area_id',old('area'));
-            }
-            if (old('age')!=null){
-                $toDate = now()->subYears(old('age'));
-                $additionalDays = old('age')/4;
-                $fromDate = now()->subDays(round((old('age') * 365) + 364 + $additionalDays)); //naxe aba moakopire macbookit var
-                $guests->whereBetween('birthday',[$fromDate,$toDate]);
-            }
-            foreach ($guests->get() as $g){
-                $array[]=[
-                    'id'=>$g['id'],
-                    'name'=>$g['name'],
-                    'lastname'=>$g['lastname'],
-                    'birthday'=>$g['birthday'],
-                    'age'=>Carbon::parse($g['birthday'])->age.' წელი',
-                    'gender'=> Guest::getGender($g['gender']),
-                    'email'=>$g['email'],
-                    'mobile'=>$g['mobile'],
-                    'city_id'=>$g->city($g['city_id'])['city_name'],
-                    'area_id'=>isset($g['area_id'])? $g->area($g['area_id'])['area_name']:'',
-                    'district_id'=>isset($g['district_id'])?$g->district($g['district_id'])['district_name']:'',
-                    'street'=>$g['street'],
-                    'education'=>$g->guestEdu($g['id'],true),
-                    'jobsarray'=>$g->job($g['id'],true),
-                    'created_at'=>$g['created_at']
-                ];
-            }
-            return $array;
+        $array = [];
+        foreach ($guests as $g) {
+
+            $array[] = [
+                'id' => $g['id'],
+                'name' => $g['name'],
+                'lastname' => $g['lastname'],
+                'birthday' => $g['birthday'],
+                'age' => Carbon::parse($g['birthday'])->age . __('Age'),
+                'gender' => Guest::getGender($g['gender']),
+                'email' => $g['email'],
+                'mobile' => $g['mobile'],
+                'city_id' => $g->city->title,
+                'area_id' => $g->area ? $g->area->title : '',
+                'district_id' => $g->direction ? $g->direction->title : '',
+                'street' => $g['street'],
+                'education' =>
+                    collect($g->educations ? $g->educations->pluck('education_name') : [])->implode(','),
+                'jobsarray' => collect($g->jobs ? $g->jobs->map(
+                    function ($job) {
+                        return $job->job->title;
+                    }
+                ) : [])->implode(','),
+                'created_at' => $g['created_at']
+            ];
+        }
+        return $array;
     }
-    private static function getGender($val){
-        if($val=='male'){
+
+    private static function getGender($val)
+    {
+        if ($val == 'male') {
             return __('whole.male');
-        }elseif ($val=='female'){
+        } elseif ($val == 'female') {
             return 'whole.female';
         }
     }
-    public function city($id=null)
+
+    public function city($id = null)
     {
-        if($id){
-            return City::where('id',$id)->first();
-        }else {
+        if ($id) {
+            return City::where('id', $id)->first();
+        } else {
             return $this->hasOne(City::class, 'id', 'city_id');
         }
     }
-    public function area($id=null)
+
+    public function area($id = null)
     {
-        if($id){
-            if(CityArea::where('id',$id)->first()){
-                return CityArea::where('id',$id)->first();
-            }else{
-                return ['title'=>''];
+        if ($id) {
+            if (CityArea::where('id', $id)->first()) {
+                return CityArea::where('id', $id)->first();
+            } else {
+                return ['title' => ''];
             }
-        }else {
+        } else {
             return $this->hasOne(CityArea::class, 'id', 'area_id');
         }
     }
-    public function district($id=null)
+
+    public function district($id = null)
     {
-        if($id){
-            if(CityAreaDistrict::where('id',$id)->first()){
-                return CityAreaDistrict::where('id',$id)->first();
-            }else{
-                return ['title'=>''];
+        if ($id) {
+            if (CityAreaDistrict::where('id', $id)->first()) {
+                return CityAreaDistrict::where('id', $id)->first();
+            } else {
+                return ['title' => ''];
             }
-        }else {
+        } else {
             return $this->hasOne(CityAreaDistrict::class, 'id', 'district_id');
         }
     }
@@ -126,7 +116,7 @@ class Guest extends Model
      */
     public function educations(): HasMany
     {
-        return $this->hasMany(GuestEducations::class,'guest_id','id');
+        return $this->hasMany(GuestEducations::class, 'guest_id', 'id');
     }
 
     /**
@@ -134,46 +124,49 @@ class Guest extends Model
      */
     public function jobs(): HasMany
     {
-        return $this->hasMany(GuestJob::class,'guest_id','id');
+        return $this->hasMany(GuestJob::class, 'guest_id', 'id');
     }
 
-    public static function getGuestFromJob($id=null){
-        if($id){
+    public static function getGuestFromJob($id = null)
+    {
+        if ($id) {
             $collection = DB::table('guest_jobs')
-                ->where('job_id','=',$id)
+                ->where('job_id', '=', $id)
                 ->pluck('guest_id')
                 ->all();
             return $collection;
         }
         return false;
     }
-    public static function getGuestFromEdu($id=null)
+
+    public static function getGuestFromEdu($id = null)
     {
-        if($id){
+        if ($id) {
             $collection = DB::table('guest_educations')
-                ->where('education_id','=',$id)
+                ->where('education_id', '=', $id)
                 ->pluck('guest_id')
                 ->all();
             return $collection;
-       }
+        }
         return false;
     }
-    public function job($id=null,$c=null)
+
+    public function job($id = null, $c = null)
     {
-        if ($id){
-            $jobs=[];
-            if ($c){
+        if ($id) {
+            $jobs = [];
+            if ($c) {
                 foreach (Job::getJobs($id) as $item) {
-                    $jobs[]=Job::where('id',$item->job_id)->first()['title'];
+                    $jobs[] = Job::where('id', $item->job_id)->first()['title'];
                 }
-                return implode(', ',$jobs);
-            }else{
+                return implode(', ', $jobs);
+            } else {
                 foreach (Job::getJobs($id) as $item) {
-                    $jobs[]=Job::where('id',$item->job_id)->first();
+                    $jobs[] = Job::where('id', $item->job_id)->first();
                 }
                 return $jobs;
             }
-        }else{
+        } else {
             return '';
         }
     }

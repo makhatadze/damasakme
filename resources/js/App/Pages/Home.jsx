@@ -27,7 +27,7 @@ export default function Index(props) {
     const [validatedTwo, setValidatedTwo] = useState(false);
     const [validatedTree, setValidatedTree] = useState(false);
     const [showMenu, setShowMenu] = useState(false)
-
+    const {social} = usePage().props;
     const [selectedCity, setSelectedCity] = useState(null);
     const [selectedArea, setSelectedArea] = useState(null);
 
@@ -222,9 +222,9 @@ export default function Index(props) {
                                 <div className="content-left-wrapper">
                                     <div id="social">
                                         <ul>
-                                            <li><a href="#0"><i className="fab fa-facebook-f"></i></a></li>
-                                            <li><a href="#0"><i className="fab fa-instagram"></i></a></li>
-                                            <li><a href="#0"><i className="fab fa-linkedin-in"></i></a></li>
+                                            <li><a href={social.facebook} target="_blank"><i className="fab fa-facebook-f"></i></a></li>
+                                            <li><a href={social.instagram} target="_blank"><i className="fab fa-instagram"></i></a></li>
+                                            <li><a href={social.linkedin} target="_blank"><i className="fab fa-linkedin-in"></i></a></li>
                                         </ul>
                                     </div>
                                     <div>

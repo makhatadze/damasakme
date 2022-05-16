@@ -39,11 +39,14 @@ Route::middleware(['setLocale'])
         Route::prefix(config('admin.prefix'))
             ->group(function () {
                 Route::middleware('auth')->group(function () {
-                    Route::get('dashboard', DashboardController::class)->name('dashboard');
+//                    Route::get('dashboard', DashboardController::class)->name('dashboard');
+                    Route::get('dashboard', [ApplicationController::class,'index'])->name('dashboard');
+
                     Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
 
 
                     Route::apiResource('applications', ApplicationController::class);
+                    Route::get('export/applications', [ApplicationController::class,'exportExcel'])->name('export.applications');
 
                     Route::apiResource('users', UserController::class);
                     Route::apiResource('jobs', JobsController::class);
