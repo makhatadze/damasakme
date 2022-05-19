@@ -440,6 +440,7 @@ export default function Index(props) {
                                                                                  onChange={onCityChange}
                                                                                  aria-label="Select a city">
                                                                         <option
+                                                                            disabled
                                                                             value={''}>{__('select_a_city')}</option>
                                                                         {
                                                                             cities.map((option, index) => {
@@ -528,10 +529,10 @@ export default function Index(props) {
                                                                         id="city_area"
                                                                         onChange={onDegreeChange}
                                                                         aria-label="Select a area">
-                                                                        <option>{__('Add_Degree')}</option>
+                                                                        <option disabled>{__('Add_Degree')}</option>
                                                                         {
                                                                             degrees
-                                                                                .filter((el) => !selectedDegrees.includes(el.id))
+                                                                                // .filter((el) => !selectedDegrees.includes(el.id))
                                                                                 .map((option, index) => {
                                                                                     return (<option
                                                                                         key={`${index}-${option.id}`}
@@ -557,7 +558,7 @@ export default function Index(props) {
                                                                                         </Accordion.Header>
                                                                                         <span
                                                                                             className="job-remove-icon"
-                                                                                            onClick={() => window.confirm(__('Are you sure you wish to delete this item?')) ? removeDegree(el.id) : console.log('cancel') }
+                                                                                            onClick={() => window.confirm(__('Are_you_sure_you_wish_to_delete_this_item?')) ? removeDegree(el.id) : console.log('cancel') }
                                                                                         >
                                                                                             <svg
                                                                                                 xmlns="http://www.w3.org/2000/svg"

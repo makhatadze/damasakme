@@ -40,10 +40,6 @@ class HomeController extends Controller
         return inertia('Home')
             ->with('degrees', $degrees)
             ->with('jobs', $jobs)
-            ->with([
-                'type' => 'success',
-                'message' => __('About has been updated'),
-            ])
             ->with('cities', $cities);
     }
 
@@ -103,7 +99,7 @@ class HomeController extends Controller
             DB::commit();
             return back()->with([
                 'type' => 'success',
-                'message' => __('City area has been created'),
+                'message' => __('თქვენი განცხადება მიღებულია მადლობთ'),
             ]);
         } catch (\Exception $m) {
             DB::rollBack();
