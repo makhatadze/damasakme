@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 import "./Header.css";
-import {Link} from "@inertiajs/inertia-react";
+import {Link, usePage} from "@inertiajs/inertia-react";
 
 const Header = () => {
     const [showMenu, setShowMenu] = useState(false)
+    const {social} = usePage().props;
 
     return (
         <header>
@@ -18,17 +19,17 @@ const Header = () => {
                         <div id="social">
                             <ul>
                                 <li>
-                                    <a href="#">
+                                    <a href={social.facebook} target="_blank">
                                         <i className="fab fa-facebook-f"/>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href={social.instagram} target="_blank">
                                         <i className="fab fa-instagram"/>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href={social.linkedin} target="_blank">
                                         <i className="fab fa-linkedin-in"/>
                                     </a>
                                 </li>

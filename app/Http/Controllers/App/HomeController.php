@@ -95,7 +95,7 @@ class HomeController extends Controller
                 'title' => 'მოგესალმებით',
                 'body' => 'თქვენი განცხადება მიღებულია მადლობთ'
             ];
-//            Mail::to($request['email'])->send(new NotificationMail($emailheaders));
+            Mail::to($request['email'])->send(new NotificationMail($emailheaders));
             DB::commit();
             return back()->with([
                 'type' => 'success',
