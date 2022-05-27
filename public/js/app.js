@@ -5857,7 +5857,8 @@ function Index(props) {
     city_area: null,
     city_area_district: null,
     jobs: [],
-    degrees: []
+    degrees: [],
+    term: false
   }),
       data = _useForm.data,
       setData = _useForm.setData,
@@ -5867,6 +5868,10 @@ function Index(props) {
 
   var onChange = function onChange(e) {
     return setData(_objectSpread(_objectSpread({}, data), {}, _defineProperty({}, e.target.id, e.target.value)));
+  };
+
+  var onSelectChange = function onSelectChange(e) {
+    return e.target.value ? setData(_objectSpread(_objectSpread({}, data), {}, _defineProperty({}, e.target.id, e.target.value))) : null;
   };
 
   var changeDegree = function changeDegree(e, index) {
@@ -5879,8 +5884,8 @@ function Index(props) {
 
   var removeDegree = function removeDegree(index) {
     setData(_objectSpread(_objectSpread({}, data), {}, {
-      degrees: data.degrees.filter(function (degree) {
-        return degree.id !== index;
+      degrees: data.degrees.filter(function (degree, key) {
+        return key !== index;
       })
     }));
     var newSelectedDegrees = selectedDegrees.filter(function (el) {
@@ -5903,6 +5908,12 @@ function Index(props) {
   };
 
   var onAreaChange = function onAreaChange(e) {
+    console.log(e.target.value);
+
+    if (!e.target.value) {
+      return;
+    }
+
     setData(_objectSpread(_objectSpread({}, data), {}, {
       city_area: e.target.value,
       city_area_district: null
@@ -6376,18 +6387,22 @@ function Index(props) {
                           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
                             htmlFor: "basic-url",
                             children: __('Area')
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Select, {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Select, {
                             required: true,
                             value: data.city_area,
                             id: "city_area",
                             onChange: onAreaChange,
                             "aria-label": "select_a_area",
-                            children: selectedCity.get_city_areas.map(function (option, index) {
+                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
+                              value: "",
+                              className: "text-secondary",
+                              children: __('Choose_area')
+                            }), selectedCity.get_city_areas.map(function (option, index) {
                               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
                                 value: option.id,
                                 children: option.title
                               }, "".concat(index, "-").concat(option.id));
-                            })
+                            })]
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                             className: "invalid-feedback",
                             children: __('Please_select_area')
@@ -6400,18 +6415,22 @@ function Index(props) {
                           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
                             htmlFor: "basic-url",
                             children: __('District')
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Select, {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Select, {
                             required: true,
                             value: data.city_area_district,
                             id: "city_area_district",
-                            onChange: onChange,
+                            onChange: onSelectChange,
                             "aria-label": "Select_a_district",
-                            children: selectedArea.get_city_area_districts.map(function (option, index) {
+                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
+                              value: "",
+                              className: "text-secondary",
+                              children: __('Choose_district')
+                            }), selectedArea.get_city_area_districts.map(function (option, index) {
                               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
                                 value: option.id,
                                 children: option.title
                               }, "".concat(index, "-").concat(option.id));
-                            })
+                            })]
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                             className: "invalid-feedback",
                             children: __('please_select_district')
@@ -6450,9 +6469,10 @@ function Index(props) {
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Select, {
                             id: "city_area",
                             onChange: onDegreeChange,
+                            value: "",
                             "aria-label": "Select a area",
                             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-                              disabled: true,
+                              className: "text-secondary",
                               children: __('Add_Degree')
                             }), degrees.map(function (option, index) {
                               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
@@ -6489,7 +6509,7 @@ function Index(props) {
                                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                                   className: "job-remove-icon",
                                   onClick: function onClick() {
-                                    return window.confirm(__('Are_you_sure_you_wish_to_delete_this_item?')) ? removeDegree(el.id) : console.log('cancel');
+                                    return window.confirm(__('Are_you_sure_you_wish_to_delete_this_item?')) ? removeDegree(index) : console.log('cancel');
                                   },
                                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("svg", {
                                     xmlns: "http://www.w3.org/2000/svg",
@@ -6507,7 +6527,7 @@ function Index(props) {
                                   })
                                 })]
                               }), el.type ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"].Body, {
-                                className: 'job-accordion-body',
+                                className: 'job-accordion-body' + el.type,
                                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                                   className: 'row p-4 py-5',
                                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
@@ -6666,9 +6686,9 @@ function Index(props) {
                         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h3", {
                           children: __('Thanks_for_taking_the_time!')
                         })
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                         className: "text-center",
-                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                           className: "form-group terms",
                           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("label", {
                             className: "container_check",
@@ -6679,13 +6699,21 @@ function Index(props) {
                             }), " ", __('Before_submitting_the_application'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                               type: "checkbox",
                               name: "terms",
+                              onChange: function onChange() {
+                                return setData(_objectSpread(_objectSpread({}, data), {}, {
+                                  term: !data.term
+                                }));
+                              },
                               className: "required",
                               required: true
                             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                               className: "checkmark"
                             })]
                           })
-                        })
+                        }), !data.term ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                          className: "invalid-terms",
+                          children: __('Please_check_desired_field')
+                        }) : null]
                       })]
                     })
                   }) : null]
@@ -6707,7 +6735,7 @@ function Index(props) {
                     className: "submit",
                     children: __('Next')
                   }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
-                    disabled: !submiting,
+                    disabled: submiting,
                     onClick: submitForm,
                     type: "button",
                     id: "submit",

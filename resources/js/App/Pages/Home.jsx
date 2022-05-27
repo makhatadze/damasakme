@@ -49,10 +49,13 @@ export default function Index(props) {
         city_area: null,
         city_area_district: null,
         jobs: [],
-        degrees: []
+        degrees: [],
+        term: false
     });
 
     const onChange = (e) => setData({...data, [e.target.id]: e.target.value});
+    const onSelectChange = (e) => e.target.value ? setData({...data, [e.target.id]: e.target.value}) : null
+
     const changeDegree = (e, index) => {
         let degrees = data.degrees
         degrees[index] = {
@@ -68,8 +71,8 @@ export default function Index(props) {
     const removeDegree = (index) => {
         setData({
             ...data,
-            degrees: data.degrees.filter(function (degree) {
-                return degree.id !== index
+            degrees: data.degrees.filter(function (degree, key) {
+                return key !== index
             })
         })
         let newSelectedDegrees = selectedDegrees.filter((el) => el !== index)
@@ -90,6 +93,10 @@ export default function Index(props) {
     };
 
     const onAreaChange = (e) => {
+        console.log(e.target.value)
+        if (!e.target.value) {
+            return;
+        }
         setData({
             ...data,
             city_area: e.target.value,
@@ -477,6 +484,7 @@ export default function Index(props) {
                                                                                 id="city_area"
                                                                                 onChange={onAreaChange}
                                                                                 aria-label="select_a_area">
+                                                                                <option value="" className="text-secondary">{__('Choose_area')}</option>
                                                                                 {
                                                                                     selectedCity.get_city_areas.map((option, index) => {
                                                                                         return (<option
@@ -501,8 +509,9 @@ export default function Index(props) {
                                                                             <Form.Select
                                                                                 required value={data.city_area_district}
                                                                                 id="city_area_district"
-                                                                                onChange={onChange}
+                                                                                onChange={onSelectChange}
                                                                                 aria-label="Select_a_district">
+                                                                                <option value="" className="text-secondary">{__('Choose_district')}</option>
                                                                                 {
                                                                                     selectedArea.get_city_area_districts.map((option, index) => {
                                                                                         return (<option
@@ -539,8 +548,9 @@ export default function Index(props) {
                                                                     <Form.Select
                                                                         id="city_area"
                                                                         onChange={onDegreeChange}
+                                                                        value=""
                                                                         aria-label="Select a area">
-                                                                        <option disabled>{__('Add_Degree')}</option>
+                                                                        <option className="text-secondary">{__('Add_Degree')}</option>
                                                                         {
                                                                             degrees
                                                                                 .map((option, index) => {
@@ -579,7 +589,7 @@ export default function Index(props) {
                                                                                         </Accordion.Header>
                                                                                         <span
                                                                                             className="job-remove-icon"
-                                                                                            onClick={() => window.confirm(__('Are_you_sure_you_wish_to_delete_this_item?')) ? removeDegree(el.id) : console.log('cancel')}
+                                                                                            onClick={() => window.confirm(__('Are_you_sure_you_wish_to_delete_this_item?')) ? removeDegree(index) : console.log('cancel')}
                                                                                         >
                                                                                             <svg
                                                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -597,7 +607,7 @@ export default function Index(props) {
                                                                                     {
                                                                                         el.type ? (
                                                                                             <Accordion.Body
-                                                                                                className={'job-accordion-body'}>
+                                                                                                className={'job-accordion-body' + el.type}>
                                                                                                 <div
                                                                                                     className={'row p-4 py-5'}>
                                                                                                     <div
@@ -764,11 +774,22 @@ export default function Index(props) {
                                                                            className={'conditions'}> {__('Terms_and_Conditions')}
                                                                         </a> {__('Before_submitting_the_application')}
                                                                         <input type="checkbox" name="terms"
+                                                                               onChange={() => setData({
+                                                                                   ...data,
+                                                                                   term: !data.term
+                                                                               })}
                                                                                className="required"
                                                                                required/>
                                                                         <span className="checkmark"></span>
                                                                     </label>
                                                                 </div>
+                                                                {
+                                                                    !data.term ? (
+                                                                        <div className="invalid-terms">
+                                                                            {__('Please_check_desired_field')}
+                                                                        </div>
+                                                                    ): null
+                                                                }
                                                             </div>
                                                         </div>
                                                     </Form>
@@ -791,7 +812,7 @@ export default function Index(props) {
                                                     {__('Next')}
                                                 </button>
                                             ) : <button
-                                                disabled={!submiting}
+                                                disabled={submiting}
                                                 onClick={submitForm}
                                                 type="button"
                                                 id="submit"
