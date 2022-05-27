@@ -10,6 +10,7 @@ namespace App\Http\Resources\Guest;
 
 use App\Http\Resources\Education\EducationResource;
 use App\Http\Resources\Jobs\JobResource;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GuestResource extends JsonResource
@@ -23,6 +24,11 @@ class GuestResource extends JsonResource
      */
     public function toArray($request): array
     {
+        $jobs = collect($this->jobs ? $this->jobs->map(
+            function ($job) {
+                return $job->job->title;
+            }
+        ) : []);
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -45,6 +51,7 @@ class GuestResource extends JsonResource
                 }
             ) : [],
             'joined' => $this->created_at->diffForHumans(),
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d'),
             'gender' => $this->gender,
             'file' =>asset($this->file)
         ];
