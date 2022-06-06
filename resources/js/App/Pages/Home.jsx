@@ -181,7 +181,7 @@ export default function Index(props) {
     }
 
     const submitForm = () => {
-        const form = document.querySelector('.step-tree');
+        const form = document.querySelector('.step-two');
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
@@ -442,6 +442,33 @@ export default function Index(props) {
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div className="row">
+                                                            <div className="text-center">
+                                                                <div className="form-group terms">
+                                                                    <label
+                                                                        className="container_check">{__('Please_read_on')}
+                                                                        <a href="#openModal-about"
+                                                                           className={'conditions'}> {__('Terms_and_Conditions')}
+                                                                        </a> {__('Before_submitting_the_application')}
+                                                                        <input type="checkbox" name="terms"
+                                                                               onChange={() => setData({
+                                                                                   ...data,
+                                                                                   term: !data.term
+                                                                               })}
+                                                                               className="required"
+                                                                               required/>
+                                                                        <span className="checkmark"></span>
+                                                                    </label>
+                                                                </div>
+                                                                {
+                                                                    !data.term ? (
+                                                                        <div className="invalid-terms">
+                                                                            {__('Please_check_terms')}
+                                                                        </div>
+                                                                    ): null
+                                                                }
+                                                            </div>
+                                                        </div>
                                                     </Form>
                                                 ) : null
                                             }
@@ -560,17 +587,6 @@ export default function Index(props) {
                                                                                 })
                                                                         }
                                                                     </Form.Select>
-                                                                    <div className={"form-group"}>
-                                                                        <input
-                                                                            value={data.degrees.length ? 'as' : ''}
-                                                                            className="form-control none-important" required
-                                                                            name="address"
-                                                                        />
-                                                                        <div
-                                                                            className="invalid-feedback">
-                                                                            {__('Please_input_degree')}
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -757,44 +773,6 @@ export default function Index(props) {
                                                     </Form>
                                                 ) : null
                                             }
-
-                                            {
-                                                step === 3 ? (
-                                                    <Form noValidate validated={validatedTree}
-                                                          className="step step-tree">
-                                                        <div className="summary">
-                                                            <div className="wrapper">
-                                                                <h3>{__('Thanks_for_taking_the_time!')}</h3>
-                                                            </div>
-                                                            <div className="text-center">
-                                                                <div className="form-group terms">
-                                                                    <label
-                                                                        className="container_check">{__('Please_read_on')}
-                                                                        <a href="#openModal-about"
-                                                                           className={'conditions'}> {__('Terms_and_Conditions')}
-                                                                        </a> {__('Before_submitting_the_application')}
-                                                                        <input type="checkbox" name="terms"
-                                                                               onChange={() => setData({
-                                                                                   ...data,
-                                                                                   term: !data.term
-                                                                               })}
-                                                                               className="required"
-                                                                               required/>
-                                                                        <span className="checkmark"></span>
-                                                                    </label>
-                                                                </div>
-                                                                {
-                                                                    !data.term ? (
-                                                                        <div className="invalid-terms">
-                                                                            {__('Please_check_desired_field')}
-                                                                        </div>
-                                                                    ): null
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    </Form>
-                                                ) : null
-                                            }
                                         </div>
                                         <div id="bottom-wizard">
                                             {step > 1 ? (
@@ -804,7 +782,7 @@ export default function Index(props) {
                                                 </button>
                                             ) : null
                                             }
-                                            {step !== 3 ? (
+                                            {step == 1 ? (
                                                 <button onClick={step === 1 ? increaseStepOne : increaseStepTwo}
                                                         type="button"
                                                         id="submit"

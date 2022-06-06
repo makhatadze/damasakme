@@ -6006,7 +6006,7 @@ function Index(props) {
   };
 
   var submitForm = function submitForm() {
-    var form = document.querySelector('.step-tree');
+    var form = document.querySelector('.step-two');
 
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -6347,6 +6347,37 @@ function Index(props) {
                           })]
                         })
                       })]
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                      className: "row",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                        className: "text-center",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                          className: "form-group terms",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("label", {
+                            className: "container_check",
+                            children: [__('Please_read_on'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("a", {
+                              href: "#openModal-about",
+                              className: 'conditions',
+                              children: [" ", __('Terms_and_Conditions')]
+                            }), " ", __('Before_submitting_the_application'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+                              type: "checkbox",
+                              name: "terms",
+                              onChange: function onChange() {
+                                return setData(_objectSpread(_objectSpread({}, data), {}, {
+                                  term: !data.term
+                                }));
+                              },
+                              className: "required",
+                              required: true
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                              className: "checkmark"
+                            })]
+                          })
+                        }), !data.term ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                          className: "invalid-terms",
+                          children: __('Please_check_terms')
+                        }) : null]
+                      })
                     })]
                   }) : null, step === 2 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
                     noValidate: true,
@@ -6479,17 +6510,6 @@ function Index(props) {
                                 value: option.id,
                                 children: option.title
                               }, "".concat(index, "-").concat(option.id));
-                            })]
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-                            className: "form-group",
-                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
-                              value: data.degrees.length ? 'as' : '',
-                              className: "form-control none-important",
-                              required: true,
-                              name: "address"
-                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                              className: "invalid-feedback",
-                              children: __('Please_input_degree')
                             })]
                           })]
                         })
@@ -6675,47 +6695,6 @@ function Index(props) {
                         })
                       })
                     })]
-                  }) : null, step === 3 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
-                    noValidate: true,
-                    validated: validatedTree,
-                    className: "step step-tree",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-                      className: "summary",
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                        className: "wrapper",
-                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h3", {
-                          children: __('Thanks_for_taking_the_time!')
-                        })
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-                        className: "text-center",
-                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                          className: "form-group terms",
-                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("label", {
-                            className: "container_check",
-                            children: [__('Please_read_on'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("a", {
-                              href: "#openModal-about",
-                              className: 'conditions',
-                              children: [" ", __('Terms_and_Conditions')]
-                            }), " ", __('Before_submitting_the_application'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
-                              type: "checkbox",
-                              name: "terms",
-                              onChange: function onChange() {
-                                return setData(_objectSpread(_objectSpread({}, data), {}, {
-                                  term: !data.term
-                                }));
-                              },
-                              className: "required",
-                              required: true
-                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
-                              className: "checkmark"
-                            })]
-                          })
-                        }), !data.term ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                          className: "invalid-terms",
-                          children: __('Please_check_desired_field')
-                        }) : null]
-                      })]
-                    })
                   }) : null]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                   id: "bottom-wizard",
@@ -6728,7 +6707,7 @@ function Index(props) {
                     id: "prev",
                     className: "backward",
                     children: __('Prev')
-                  }) : null, step !== 3 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                  }) : null, step == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
                     onClick: step === 1 ? increaseStepOne : increaseStepTwo,
                     type: "button",
                     id: "submit",
