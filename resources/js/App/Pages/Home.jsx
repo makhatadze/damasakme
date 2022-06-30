@@ -628,7 +628,7 @@ export default function Index(props) {
                                                                 </Modal.Body>
                                                                 <Modal.Footer>
                                                                     <Button variant="secondary" onClick={() => setRemoveDegreeIndex(-1)}>
-                                                                        {__('Close')}
+                                                                        {__('No_delete')}
                                                                     </Button>
                                                                     <Button variant="danger" onClick={() => removeDegree()}>
                                                                         {__('Yes_delete')}
