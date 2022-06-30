@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Loading from "../Components/Loading/Loading";
-import {Accordion, Form, useAccordionButton} from "react-bootstrap";
+import {Accordion, Button, Form, Modal, useAccordionButton} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Link, useForm, usePage} from "@inertiajs/inertia-react";
 import toast, {Toaster} from 'react-hot-toast'
@@ -22,7 +22,7 @@ function CustomToggle({children, eventKey}) {
 export default function Index(props) {
     const {cities, jobs, degrees} = props;
     const [loading, setLoading] = useState(true)
-    const [step, setStep] = useState(2)
+    const [step, setStep] = useState(1)
     const [validatedOne, setValidatedOne] = useState(false);
     const [validatedTwo, setValidatedTwo] = useState(false);
     const [validatedTree, setValidatedTree] = useState(false);
@@ -44,6 +44,8 @@ export default function Index(props) {
         'acc-10',
         'acc-11',
     ]);
+
+    const [removeDegreeIndex, setRemoveDegreeIndex] = useState(-1)
 
     const [selectedDegrees, setSelectedDegrees] = useState([]);
     const [fileInput, setFileInput] = useState('')
@@ -82,15 +84,18 @@ export default function Index(props) {
         })
     };
 
-    const removeDegree = (index) => {
-        setData({
-            ...data,
-            degrees: data.degrees.filter(function (degree, key) {
-                return key !== index
+    const removeDegree = () => {
+        if (removeDegreeIndex >= 0) {
+            setData({
+                ...data,
+                degrees: data.degrees.filter(function (degree, key) {
+                    return key !== removeDegreeIndex
+                })
             })
-        })
-        let newSelectedDegrees = selectedDegrees.filter((el) => el !== index)
-        setSelectedDegrees(newSelectedDegrees)
+            let newSelectedDegrees = selectedDegrees.filter((el) => el !== removeDegreeIndex)
+            setSelectedDegrees(newSelectedDegrees)
+            setRemoveDegreeIndex(-1)
+        }
     }
 
     const onCityChange = (e) => {
@@ -223,10 +228,7 @@ export default function Index(props) {
         if (validatedTwo && element.type == 1 && (element.school == '' || element.profession == '' ||element.start_date == '' || element.end_date == '')) {
             return "error-header"
         }
-        console.log(element)
-        console.log(validatedTwo)
-        console.log(element.type)
-        return "2222";
+        return "";
     }
 
     const handleCheck = (event) => {
@@ -614,6 +616,26 @@ export default function Index(props) {
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <>
+                                                            <Modal show={removeDegreeIndex >= 0} onHide={() => setRemoveDegreeIndex(-1)}>
+                                                                <Modal.Header closeButton>
+                                                                    <Modal.Title>
+                                                                        {__('Remove_degree')}
+                                                                    </Modal.Title>
+                                                                </Modal.Header>
+                                                                <Modal.Body>
+                                                                    {__('Are_you_sure?')}
+                                                                </Modal.Body>
+                                                                <Modal.Footer>
+                                                                    <Button variant="secondary" onClick={() => setRemoveDegreeIndex(-1)}>
+                                                                        {__('Close')}
+                                                                    </Button>
+                                                                    <Button variant="danger" onClick={() => removeDegree()}>
+                                                                        {__('Yes_delete')}
+                                                                    </Button>
+                                                                </Modal.Footer>
+                                                            </Modal>
+                                                        </>
 
                                                         <div className="row my-4">
                                                             <div className="col-md-12">
@@ -634,7 +656,7 @@ export default function Index(props) {
                                                                                         </Accordion.Header>
                                                                                         <span
                                                                                             className="job-remove-icon"
-                                                                                            onClick={() => window.confirm(__('Are_you_sure_you_wish_to_delete_this_item?')) ? removeDegree(index) : console.log('cancel')}
+                                                                                            onClick={() =>  setRemoveDegreeIndex(index)}
                                                                                         >
                                                                                             <svg
                                                                                                 xmlns="http://www.w3.org/2000/svg"
