@@ -22,7 +22,7 @@ function CustomToggle({children, eventKey}) {
 export default function Index(props) {
     const {cities, jobs, degrees} = props;
     const [loading, setLoading] = useState(true)
-    const [step, setStep] = useState(1)
+    const [step, setStep] = useState(2)
     const [validatedOne, setValidatedOne] = useState(false);
     const [validatedTwo, setValidatedTwo] = useState(false);
     const [validatedTree, setValidatedTree] = useState(false);
