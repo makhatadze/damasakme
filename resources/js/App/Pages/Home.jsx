@@ -620,11 +620,8 @@ export default function Index(props) {
                                                                                             </svg>
                                                                                         </span>
                                                                                     </div>
-                                                                                    {el.type === ''}
-                                                                                    {!el.type}
-                                                                                    {!el.type === null}
                                                                                     {
-                                                                                        el.type ? (
+                                                                                        el.type == 1 ? (
                                                                                             <Accordion.Body
                                                                                                 className={'job-accordion-body' + el.type}>
                                                                                                 <div
