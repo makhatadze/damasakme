@@ -223,9 +223,10 @@ export default function Index(props) {
         if (validatedTwo && element.type === 1 && (element.school === '' || element.profession === '' ||element.start_date === '' || element.end_date === '')) {
             return "error-header"
         }
+        console.log(element)
         console.log(validatedTwo)
         console.log(element.type)
-        return "";
+        return "2222";
     }
 
     const handleCheck = (event) => {
