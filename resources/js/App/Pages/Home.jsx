@@ -61,7 +61,7 @@ export default function Index(props) {
         mobile: '',
         address: '',
         file: null,
-        city: null,
+        city: cities && cities.length ? cities[0].id : null,
         city_area: null,
         city_area_district: null,
         jobs: [],

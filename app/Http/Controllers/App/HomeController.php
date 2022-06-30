@@ -84,12 +84,13 @@ class HomeController extends Controller
                     'guest_id' => $guests->id,
                     'education_id' => $degree['id'],
                     'education_name' =>$degree['title'] ,
-                    'school' => $degree['school'] ?? '',
-                    'profession' => $degree['profession'] ?? '',
-                    'start_date' => $degree['start_date'] ?? '',
-                    'end_date' => $degree['end_date'] ?? '',
+                    'school' => $degree['school'] ?? null,
+                    'profession' => $degree['profession'] ?? null,
+                    'start_date' => $degree['start_date'] ?? null,
+                    'end_date' => $degree['end_date'] ?? null,
                 ]);
             endforeach;
+
             //sens email to aplicant disabled
             $emailheaders = [
                 'title' => 'მოგესალმებით',

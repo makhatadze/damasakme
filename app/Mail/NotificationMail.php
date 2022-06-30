@@ -35,6 +35,6 @@ class NotificationMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('DAMASAKME.GE')->view('emails.guestnotify');
+        return $this->from('info@damasakme.ge')->subject('DAMASAKME.GE')->view('emails.guestnotify');
     }
 }
