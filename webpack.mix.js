@@ -23,3 +23,7 @@ mix.js('resources/js/admin.js', 'public/js')
     ]);
 
 mix.browserSync('laravel-9.test');
+
+if (mix.inProduction()) {
+    mix.version();
+}
