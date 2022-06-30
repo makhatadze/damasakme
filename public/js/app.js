@@ -5792,7 +5792,7 @@ function Index(props) {
       loading = _useState2[0],
       setLoading = _useState2[1];
 
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(2),
       _useState4 = _slicedToArray(_useState3, 2),
       step = _useState4[0],
       setStep = _useState4[1];
@@ -5908,8 +5908,6 @@ function Index(props) {
   };
 
   var onAreaChange = function onAreaChange(e) {
-    console.log(e.target.value);
-
     if (!e.target.value) {
       return;
     }
@@ -6547,10 +6545,10 @@ function Index(props) {
                                     })]
                                   })
                                 })]
-                              }), el.type ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"].Body, {
+                              }), el.type === '', !el.type, !el.type === null, el.type ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"].Body, {
                                 className: 'job-accordion-body' + el.type,
                                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-                                  className: 'row p-4 py-5',
+                                  className: 'row py-5',
                                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                                     className: "col-md-12 col-sm-12",
                                     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {

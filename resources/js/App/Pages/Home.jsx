@@ -22,7 +22,7 @@ function CustomToggle({children, eventKey}) {
 export default function Index(props) {
     const {cities, jobs, degrees} = props;
     const [loading, setLoading] = useState(true)
-    const [step, setStep] = useState(1)
+    const [step, setStep] = useState(2)
     const [validatedOne, setValidatedOne] = useState(false);
     const [validatedTwo, setValidatedTwo] = useState(false);
     const [validatedTree, setValidatedTree] = useState(false);
@@ -93,7 +93,6 @@ export default function Index(props) {
     };
 
     const onAreaChange = (e) => {
-        console.log(e.target.value)
         if (!e.target.value) {
             return;
         }
@@ -621,12 +620,15 @@ export default function Index(props) {
                                                                                             </svg>
                                                                                         </span>
                                                                                     </div>
+                                                                                    {el.type === ''}
+                                                                                    {!el.type}
+                                                                                    {!el.type === null}
                                                                                     {
                                                                                         el.type ? (
                                                                                             <Accordion.Body
                                                                                                 className={'job-accordion-body' + el.type}>
                                                                                                 <div
-                                                                                                    className={'row p-4 py-5'}>
+                                                                                                    className={'row py-5'}>
                                                                                                     <div
                                                                                                         className="col-md-12 col-sm-12">
                                                                                                         <div
