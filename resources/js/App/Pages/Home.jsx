@@ -220,7 +220,7 @@ export default function Index(props) {
     }
 
     const customValidation = (element) => {
-        if (validatedTwo && element.type === 1 && (element.school === '' || element.profession === '' ||element.start_date === '' || element.end_date === '')) {
+        if (validatedTwo && element.type == 1 && (element.school == '' || element.profession == '' ||element.start_date == '' || element.end_date == '')) {
             return "error-header"
         }
         console.log(element)
