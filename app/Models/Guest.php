@@ -38,6 +38,8 @@ class Guest extends Model
 
     public static function getGuests($guests)
     {
+        $lfcr = chr(10) . chr(13);
+
         $array = [];
         foreach ($guests as $g) {
 
@@ -52,7 +54,7 @@ class Guest extends Model
                 'mobile' => $g['mobile'],
                 'city_id' => $g->city->title,
                 'area_id' => $g->area ? $g->area->title : '',
-                'district_id' => $g->direction ? $g->direction->title : '',
+                'district_id' => $g->district ? $g->district    ->title : '',
                 'street' => $g['street'],
                 'education' =>
                     collect($g->educations ? $g->educations->pluck('education_name') : [])->implode(','),
@@ -60,8 +62,8 @@ class Guest extends Model
                     function ($job) {
                         return $job->job->title;
                     }
-                ) : [])->implode(','),
-                'created_at' => $g['created_at']
+                ) : [])->implode($lfcr),
+                'created_at' => Carbon::parse($g->created_at)->format('Y-m-d')
             ];
         }
         return $array;
@@ -69,10 +71,10 @@ class Guest extends Model
 
     private static function getGender($val)
     {
-        if ($val == 'male') {
-            return __('whole.male');
-        } elseif ($val == 'female') {
-            return 'whole.female';
+        if ($val == 'Male') {
+            return __('whole.Male');
+        } elseif ($val == 'Female') {
+            return __('whole.Female');
         }
     }
 

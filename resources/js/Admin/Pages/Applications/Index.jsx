@@ -41,6 +41,7 @@ export default function Index(props) {
         age: filters.age ?? "",
         city: filters.city ?? "",
         degree: filters.degree ?? "",
+        job: filters.job ?? "",
         area: filters.area ?? ""
     });
 
@@ -76,7 +77,8 @@ export default function Index(props) {
             age: "",
             city: "",
             degree: "",
-            area: ""
+            area: "",
+            job:""
         })
     }
 
@@ -148,7 +150,7 @@ export default function Index(props) {
                                                 <a className="btn btn-vimeo" href={route('export.applications',data)} >{__('Export')}</a>
                                             </div>
                                             <Collapse in={open}>
-                                                <form onSubmit={onSubmit}>
+                                                <form onSubmit={onSubmit} className="filter-form">
                                                    <div className="row">
                                                        <div className="col-md-3 col-sm-6">
                                                            <div className="form-group">
@@ -266,6 +268,20 @@ export default function Index(props) {
                                                                 }
                                                             </Form.Select>
                                                         </div>
+                                                        <div className="col-md-3 col-sm-6">
+                                                            <Form.Select value={data.job} id="job"
+                                                                         onChange={onChange}
+                                                                         aria-label="Select a Job">
+                                                                <option
+                                                                    value={''}>{__('select_a_job')}</option>
+                                                                {
+                                                                    jobs.map((option, index) => {
+                                                                        return (<option key={index}
+                                                                                        value={option.id}>{option.title}</option>)
+                                                                    })
+                                                                }
+                                                            </Form.Select>
+                                                        </div>
                                                         <div className="col-md-6 col-sm-12 d-flex gap-2">
                                                             <Button
                                                                 className="btn btn-info"
@@ -300,6 +316,8 @@ export default function Index(props) {
                                             <th className="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">{__('birthday')}</th>
                                             <th className="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">{__('age')}</th>
                                             <th className="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">{__('email')}</th>
+                                            <th className="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">{__('jobs')}</th>
+                                            <th className="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">{__('city')}</th>
                                             <th className="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">{__('degree')}</th>
                                             <th className="text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2">{__('created_at')}</th>
                                             <th className="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Actions</th>
@@ -308,7 +326,7 @@ export default function Index(props) {
                                         <tbody>
                                         {guests.map((guest, index) => (
                                             <tr key={guest.id}>
-                                                <td className='text-center'>{meta.from + guest.id}</td>
+                                                <td className='text-center'>{guest.id}</td>
                                                 <td className='text-left'>
                                                     <p className="text-sm font-weight-bold mb-0">{guest.name}</p>
                                                 </td>
@@ -325,6 +343,23 @@ export default function Index(props) {
                                                     <div className="d-flex align-items-center text-left">
                                                         <span
                                                             className="text-xs font-weight-bold mb-0">{guest.age}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="align-middle text-left">
+                                                    <div className="d-flex align-items-center text-left">
+                                                        <span
+                                                            className="text-xs font-weight-bold mb-0">{guest.email}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="align-middle text-left">
+                                                    <div className="d-flex flex-column gap-2 text-left">
+                                                        {
+                                                            guest.jobs.length ? (
+                                                                guest.jobs.map((el,index) => {
+                                                                    return  <span key={index} className="text-xs font-weight-bold mb-0">{el.title}</span>
+                                                                })
+                                                            ) : null
+                                                        }
                                                     </div>
                                                 </td>
                                                 <td className="align-middle text-left">
@@ -347,7 +382,7 @@ export default function Index(props) {
                                                 <td className="align-middle text-left">
                                                     <div className="d-flex align-items-center text-left">
                                                         <span
-                                                            className="text-xs font-weight-bold mb-0">{guest.joined}
+                                                            className="text-xs font-weight-bold mb-0">{guest.created_at}
                                                         </span>
                                                     </div>
                                                 </td>

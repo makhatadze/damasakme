@@ -17,7 +17,7 @@ use App\Models\City;
 use App\Models\Degree;
 use App\Models\Guest;
 use App\Models\Job;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -38,12 +38,16 @@ class ApplicationController extends Controller
             $guests->where('street', 'like', '%' . $request->street);
             $filter = true;
         }
-        if ($request->filled('education')) {
-            $guests->whereIn('guests.id', array_values(Guest::getGuestFromEdu($request->education)));
+        if ($request->filled('degree')) {
+            $guests->whereHas('educations',function (Builder $query) use ($request) {
+                $query->where('education_id',  $request->degree);
+            });
             $filter = true;
         }
-        if ($request->filled('jobs') != null) {
-            $guests->whereIn('guests.id', array_values(Guest::getGuestFromJob($request->jobs)));
+        if ($request->filled('job') != null) {
+            $guests->whereHas('jobs',function (Builder $query) use ($request) {
+                $query->where('job_id',  $request->job);
+            });
             $filter = true;
         }
         if ($request->filled('area')) {
@@ -91,4 +95,16 @@ class ApplicationController extends Controller
             ->setRequest($request), 'applications.xlsx');
     }
 
+
+    public function destroy(int $id): \Illuminate\Http\RedirectResponse
+    {
+        $guest = Guest::findOrFail($id);
+
+        $guest->delete();
+
+        return back()->with([
+            'type' => 'success',
+            'message' => __('Applcation has been deleted'),
+        ]);
+    }
 }

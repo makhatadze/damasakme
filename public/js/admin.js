@@ -11808,7 +11808,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 function Index(props) {
-  var _filters$street, _filters$age, _filters$city, _filters$degree, _filters$area;
+  var _filters$street, _filters$age, _filters$city, _filters$degree, _filters$job, _filters$area;
 
   var _props$guests = props.guests,
       guests = _props$guests.data,
@@ -11871,6 +11871,7 @@ function Index(props) {
     age: (_filters$age = filters.age) !== null && _filters$age !== void 0 ? _filters$age : "",
     city: (_filters$city = filters.city) !== null && _filters$city !== void 0 ? _filters$city : "",
     degree: (_filters$degree = filters.degree) !== null && _filters$degree !== void 0 ? _filters$degree : "",
+    job: (_filters$job = filters.job) !== null && _filters$job !== void 0 ? _filters$job : "",
     area: (_filters$area = filters.area) !== null && _filters$area !== void 0 ? _filters$area : ""
   }),
       data = _useForm.data,
@@ -11919,7 +11920,8 @@ function Index(props) {
       age: "",
       city: "",
       degree: "",
-      area: ""
+      area: "",
+      job: ""
     });
   };
 
@@ -12022,6 +12024,7 @@ function Index(props) {
                       "in": open,
                       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("form", {
                         onSubmit: onSubmit,
+                        className: "filter-form",
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
                           className: "row",
                           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
@@ -12151,6 +12154,23 @@ function Index(props) {
                                 }, index);
                               })]
                             })
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                            className: "col-md-3 col-sm-6",
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_11__["default"].Select, {
+                              value: data.job,
+                              id: "job",
+                              onChange: onChange,
+                              "aria-label": "Select a Job",
+                              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+                                value: '',
+                                children: __('select_a_job')
+                              }), jobs.map(function (option, index) {
+                                return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("option", {
+                                  value: option.id,
+                                  children: option.title
+                                }, index);
+                              })]
+                            })
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("div", {
                             className: "col-md-6 col-sm-12 d-flex gap-2",
                             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_9__["default"], {
@@ -12200,6 +12220,12 @@ function Index(props) {
                         children: __('email')
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
                         className: "text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2",
+                        children: __('jobs')
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
+                        className: "text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2",
+                        children: __('city')
+                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
+                        className: "text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2",
                         children: __('degree')
                       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("th", {
                         className: "text-uppercase text-secondary text-xxs font-weight-bolder text-left opacity-7 ps-2",
@@ -12214,7 +12240,7 @@ function Index(props) {
                       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)("tr", {
                         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
                           className: "text-center",
-                          children: meta.from + guest.id
+                          children: guest.id
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
                           className: "text-left",
                           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
@@ -12251,6 +12277,26 @@ function Index(props) {
                             className: "d-flex align-items-center text-left",
                             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
                               className: "text-xs font-weight-bold mb-0",
+                              children: guest.email
+                            })
+                          })
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
+                          className: "align-middle text-left",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                            className: "d-flex flex-column gap-2 text-left",
+                            children: guest.jobs.length ? guest.jobs.map(function (el, index) {
+                              return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                                className: "text-xs font-weight-bold mb-0",
+                                children: el.title
+                              }, index);
+                            }) : null
+                          })
+                        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {
+                          className: "align-middle text-left",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("div", {
+                            className: "d-flex align-items-center text-left",
+                            children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
+                              className: "text-xs font-weight-bold mb-0",
                               children: guest.city
                             })
                           })
@@ -12271,7 +12317,7 @@ function Index(props) {
                             className: "d-flex align-items-center text-left",
                             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("span", {
                               className: "text-xs font-weight-bold mb-0",
-                              children: guest.joined
+                              children: guest.created_at
                             })
                           })
                         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("td", {

@@ -5416,6 +5416,7 @@ var Header = function Header() {
       showMenu = _useState2[0],
       setShowMenu = _useState2[1];
 
+  var social = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__.usePage)().props.social;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("header", {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
       className: "container-fluid",
@@ -5439,21 +5440,24 @@ var Header = function Header() {
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("ul", {
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-                  href: "#",
+                  href: social.facebook,
+                  target: "_blank",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                     className: "fab fa-facebook-f"
                   })
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-                  href: "#",
+                  href: social.instagram,
+                  target: "_blank",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                     className: "fab fa-instagram"
                   })
                 })
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-                  href: "#",
+                  href: social.linkedin,
+                  target: "_blank",
                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("i", {
                     className: "fab fa-linkedin-in"
                   })
@@ -5830,6 +5834,16 @@ function Index(props) {
       selectedDegrees = _useState18[0],
       setSelectedDegrees = _useState18[1];
 
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+      _useState20 = _slicedToArray(_useState19, 2),
+      fileInput = _useState20[0],
+      setFileInput = _useState20[1];
+
+  var _useState21 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+      _useState22 = _slicedToArray(_useState21, 2),
+      submiting = _useState22[0],
+      setSubmiting = _useState22[1];
+
   var _useForm = (0,_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_3__.useForm)({
     first_name: '',
     last_name: '',
@@ -5843,7 +5857,8 @@ function Index(props) {
     city_area: null,
     city_area_district: null,
     jobs: [],
-    degrees: []
+    degrees: [],
+    term: false
   }),
       data = _useForm.data,
       setData = _useForm.setData,
@@ -5853,6 +5868,10 @@ function Index(props) {
 
   var onChange = function onChange(e) {
     return setData(_objectSpread(_objectSpread({}, data), {}, _defineProperty({}, e.target.id, e.target.value)));
+  };
+
+  var onSelectChange = function onSelectChange(e) {
+    return e.target.value ? setData(_objectSpread(_objectSpread({}, data), {}, _defineProperty({}, e.target.id, e.target.value))) : null;
   };
 
   var changeDegree = function changeDegree(e, index) {
@@ -5865,8 +5884,8 @@ function Index(props) {
 
   var removeDegree = function removeDegree(index) {
     setData(_objectSpread(_objectSpread({}, data), {}, {
-      degrees: data.degrees.filter(function (degree) {
-        return degree.id !== index;
+      degrees: data.degrees.filter(function (degree, key) {
+        return key !== index;
       })
     }));
     var newSelectedDegrees = selectedDegrees.filter(function (el) {
@@ -5889,6 +5908,12 @@ function Index(props) {
   };
 
   var onAreaChange = function onAreaChange(e) {
+    console.log(e.target.value);
+
+    if (!e.target.value) {
+      return;
+    }
+
     setData(_objectSpread(_objectSpread({}, data), {}, {
       city_area: e.target.value,
       city_area_district: null
@@ -5951,9 +5976,7 @@ function Index(props) {
       file: event.target.files[0]
     }));
     var fileInput = document.getElementById("browse");
-    var textInput = document.getElementById("filename");
-    textInput.value = fileInput.value;
-    console.log(data);
+    setFileInput(fileInput.value);
   };
 
   var increaseStepOne = function increaseStepOne() {
@@ -5983,24 +6006,27 @@ function Index(props) {
   };
 
   var submitForm = function submitForm() {
-    var form = document.querySelector('.step-tree');
+    var form = document.querySelector('.step-two');
 
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     } else {
+      setSubmiting(true);
       post(route('app.store'), {
         data: data,
         onSuccess: function onSuccess() {
+          setSubmiting(false);
           reset();
           close();
           setValidatedTwo(false);
           setValidatedOne(false);
           setValidatedTree(false);
           setStep(1);
-          react_hot_toast__WEBPACK_IMPORTED_MODULE_6__["default"].success(__('Successfuly added!'));
+          react_hot_toast__WEBPACK_IMPORTED_MODULE_6__["default"].success(__('თქვენი განცხადება მიღებულია , გმადლობთ!'));
         }
       });
+      setSubmiting(false);
     }
 
     setValidatedTwo(true);
@@ -6183,13 +6209,14 @@ function Index(props) {
                               name: "gender",
                               required: true,
                               className: "none",
-                              value: ""
+                              value: data.gender
                             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("label", {
                               className: "container_radio mr-3",
                               children: [__('Male'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                                 type: "radio",
                                 name: "gender",
-                                value: "Male",
+                                value: data.gender,
+                                checked: data.gender === "Male",
                                 onClick: function onClick() {
                                   return setData(_objectSpread(_objectSpread({}, data), {}, {
                                     gender: 'Male'
@@ -6204,7 +6231,8 @@ function Index(props) {
                               children: [__('Female'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                                 type: "radio",
                                 name: "gender",
-                                value: "Female",
+                                value: data.gender,
+                                checked: data.gender === "Female",
                                 onClick: function onClick() {
                                   return setData(_objectSpread(_objectSpread({}, data), {}, {
                                     gender: 'Female'
@@ -6300,6 +6328,7 @@ function Index(props) {
                               onClick: handleBrowseClick
                             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                               type: "text",
+                              value: fileInput,
                               className: "col-md-8 form-control",
                               id: "filename",
                               readOnly: "true",
@@ -6309,7 +6338,7 @@ function Index(props) {
                             type: "file",
                             id: "browse",
                             name: "file",
-                            required: true,
+                            required: !data.file,
                             className: 'none',
                             accept: ".pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                             onChange: handleChange
@@ -6319,6 +6348,37 @@ function Index(props) {
                           })]
                         })
                       })]
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                      className: "row",
+                      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+                        className: "text-center",
+                        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                          className: "form-group terms",
+                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("label", {
+                            className: "container_check",
+                            children: [__('Please_read_on'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("a", {
+                              href: "#openModal-about",
+                              className: 'conditions',
+                              children: [" ", __('Terms_and_Conditions')]
+                            }), " ", __('Before_submitting_the_application'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+                              type: "checkbox",
+                              name: "terms",
+                              onChange: function onChange() {
+                                return setData(_objectSpread(_objectSpread({}, data), {}, {
+                                  term: !data.term
+                                }));
+                              },
+                              className: "required",
+                              required: true
+                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
+                              className: "checkmark"
+                            })]
+                          })
+                        }), !data.term ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+                          className: "invalid-terms",
+                          children: __('Please_check_terms')
+                        }) : null]
+                      })
                     })]
                   }) : null, step === 2 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
                     noValidate: true,
@@ -6334,22 +6394,19 @@ function Index(props) {
                           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
                             htmlFor: "basic-url",
                             children: __('City')
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Select, {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Select, {
                             required: true,
+                            placeholder: __('select_a_city'),
                             value: data.city,
                             id: "city",
                             onChange: onCityChange,
                             "aria-label": "Select a city",
-                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-                              disabled: true,
-                              value: '',
-                              children: __('select_a_city')
-                            }), cities.map(function (option, index) {
+                            children: cities.map(function (option, index) {
                               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
                                 value: option.id,
                                 children: option.title
                               }, index);
-                            })]
+                            })
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                             className: "invalid-feedback",
                             children: __('Please_select_city')
@@ -6362,18 +6419,22 @@ function Index(props) {
                           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
                             htmlFor: "basic-url",
                             children: __('Area')
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Select, {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Select, {
                             required: true,
                             value: data.city_area,
                             id: "city_area",
                             onChange: onAreaChange,
                             "aria-label": "select_a_area",
-                            children: selectedCity.get_city_areas.map(function (option, index) {
+                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
+                              value: "",
+                              className: "text-secondary",
+                              children: __('Choose_area')
+                            }), selectedCity.get_city_areas.map(function (option, index) {
                               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
                                 value: option.id,
                                 children: option.title
                               }, "".concat(index, "-").concat(option.id));
-                            })
+                            })]
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                             className: "invalid-feedback",
                             children: __('Please_select_area')
@@ -6386,18 +6447,22 @@ function Index(props) {
                           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Label, {
                             htmlFor: "basic-url",
                             children: __('District')
-                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Select, {
+                          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Select, {
                             required: true,
                             value: data.city_area_district,
                             id: "city_area_district",
-                            onChange: onChange,
+                            onChange: onSelectChange,
                             "aria-label": "Select_a_district",
-                            children: selectedArea.get_city_area_districts.map(function (option, index) {
+                            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
+                              value: "",
+                              className: "text-secondary",
+                              children: __('Choose_district')
+                            }), selectedArea.get_city_area_districts.map(function (option, index) {
                               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
                                 value: option.id,
                                 children: option.title
                               }, "".concat(index, "-").concat(option.id));
-                            })
+                            })]
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
                             className: "invalid-feedback",
                             children: __('please_select_district')
@@ -6436,12 +6501,12 @@ function Index(props) {
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"].Select, {
                             id: "city_area",
                             onChange: onDegreeChange,
+                            value: "",
                             "aria-label": "Select a area",
                             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
-                              disabled: true,
+                              className: "text-secondary",
                               children: __('Add_Degree')
-                            }), degrees // .filter((el) => !selectedDegrees.includes(el.id))
-                            .map(function (option, index) {
+                            }), degrees.map(function (option, index) {
                               return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("option", {
                                 value: option.id,
                                 children: option.title
@@ -6457,7 +6522,7 @@ function Index(props) {
                         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"], {
                           children: data.degrees.map(function (el, index) {
                             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"].Item, {
-                              eventKey: "acc-".concat(el.id),
+                              eventKey: "acc-".concat(index),
                               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                                 className: "job-header",
                                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"].Header, {
@@ -6465,7 +6530,7 @@ function Index(props) {
                                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
                                   className: "job-remove-icon",
                                   onClick: function onClick() {
-                                    return window.confirm(__('Are_you_sure_you_wish_to_delete_this_item?')) ? removeDegree(el.id) : console.log('cancel');
+                                    return window.confirm(__('Are_you_sure_you_wish_to_delete_this_item?')) ? removeDegree(index) : console.log('cancel');
                                   },
                                   children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("svg", {
                                     xmlns: "http://www.w3.org/2000/svg",
@@ -6483,7 +6548,7 @@ function Index(props) {
                                   })
                                 })]
                               }), el.type ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_8__["default"].Body, {
-                                className: 'job-accordion-body',
+                                className: 'job-accordion-body' + el.type,
                                 children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                                   className: 'row p-4 py-5',
                                   children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
@@ -6607,6 +6672,7 @@ function Index(props) {
                                       className: 'job-label',
                                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                                         type: "checkbox",
+                                        checked: data.jobs.indexOf("".concat(option.id)) > -1 ? 'checked' : '',
                                         onChange: handleCheck,
                                         value: option.id
                                       }), option.title]
@@ -6630,39 +6696,6 @@ function Index(props) {
                         })
                       })
                     })]
-                  }) : null, step === 3 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap__WEBPACK_IMPORTED_MODULE_7__["default"], {
-                    noValidate: true,
-                    validated: validatedTree,
-                    className: "step step-tree",
-                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-                      className: "summary",
-                      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                        className: "wrapper",
-                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h3", {
-                          children: __('Thanks_for_taking_the_time!')
-                        })
-                      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                        className: "text-center",
-                        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-                          className: "form-group terms",
-                          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("label", {
-                            className: "container_check",
-                            children: [__('Please_read_on'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("a", {
-                              href: "#openModal-about",
-                              className: 'conditions',
-                              children: [" ", __('Terms_and_Conditions')]
-                            }), " ", __('Before_submitting_the_application'), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
-                              type: "checkbox",
-                              name: "terms",
-                              className: "required",
-                              required: true
-                            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
-                              className: "checkmark"
-                            })]
-                          })
-                        })
-                      })]
-                    })
                   }) : null]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
                   id: "bottom-wizard",
@@ -6675,13 +6708,14 @@ function Index(props) {
                     id: "prev",
                     className: "backward",
                     children: __('Prev')
-                  }) : null, step !== 3 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                  }) : null, step == 1 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
                     onClick: step === 1 ? increaseStepOne : increaseStepTwo,
                     type: "button",
                     id: "submit",
                     className: "submit",
                     children: __('Next')
                   }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
+                    disabled: submiting,
                     onClick: submitForm,
                     type: "button",
                     id: "submit",

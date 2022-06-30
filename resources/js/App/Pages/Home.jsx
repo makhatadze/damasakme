@@ -3,7 +3,7 @@ import Loading from "../Components/Loading/Loading";
 import {Accordion, Form, useAccordionButton} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Link, useForm, usePage} from "@inertiajs/inertia-react";
-import toast, { Toaster } from 'react-hot-toast'
+import toast, {Toaster} from 'react-hot-toast'
 
 function CustomToggle({children, eventKey}) {
     const decoratedOnClick = useAccordionButton(eventKey, () =>
@@ -32,6 +32,9 @@ export default function Index(props) {
     const [selectedArea, setSelectedArea] = useState(null);
 
     const [selectedDegrees, setSelectedDegrees] = useState([]);
+    const [fileInput, setFileInput] = useState('')
+
+    const [submiting, setSubmiting] = useState(false)
 
     const {data, setData, post, reset, errors} = useForm({
         first_name: '',
@@ -46,10 +49,13 @@ export default function Index(props) {
         city_area: null,
         city_area_district: null,
         jobs: [],
-        degrees: []
+        degrees: [],
+        term: false
     });
 
     const onChange = (e) => setData({...data, [e.target.id]: e.target.value});
+    const onSelectChange = (e) => e.target.value ? setData({...data, [e.target.id]: e.target.value}) : null
+
     const changeDegree = (e, index) => {
         let degrees = data.degrees
         degrees[index] = {
@@ -65,9 +71,10 @@ export default function Index(props) {
     const removeDegree = (index) => {
         setData({
             ...data,
-            degrees: data.degrees.filter(function(degree) {
-                return degree.id !== index
-            })})
+            degrees: data.degrees.filter(function (degree, key) {
+                return key !== index
+            })
+        })
         let newSelectedDegrees = selectedDegrees.filter((el) => el !== index)
         setSelectedDegrees(newSelectedDegrees)
     }
@@ -86,6 +93,10 @@ export default function Index(props) {
     };
 
     const onAreaChange = (e) => {
+        console.log(e.target.value)
+        if (!e.target.value) {
+            return;
+        }
         setData({
             ...data,
             city_area: e.target.value,
@@ -143,10 +154,7 @@ export default function Index(props) {
         })
 
         const fileInput = document.getElementById("browse");
-        const textInput = document.getElementById("filename");
-        textInput.value = fileInput.value;
-
-        console.log(data)
+        setFileInput(fileInput.value)
     }
 
     const increaseStepOne = () => {
@@ -173,23 +181,26 @@ export default function Index(props) {
     }
 
     const submitForm = () => {
-        const form = document.querySelector('.step-tree');
+        const form = document.querySelector('.step-two');
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
         } else {
+            setSubmiting(true)
             post(route('app.store'), {
                 data,
                 onSuccess: () => {
+                    setSubmiting(false)
                     reset()
                     close()
                     setValidatedTwo(false);
                     setValidatedOne(false);
                     setValidatedTree(false)
                     setStep(1)
-                    toast['success'](__('Successfuly added!'))
+                    toast['success'](__('თქვენი განცხადება მიღებულია , გმადლობთ!'))
                 },
             });
+            setSubmiting(false)
         }
 
         setValidatedTwo(true);
@@ -222,9 +233,12 @@ export default function Index(props) {
                                 <div className="content-left-wrapper">
                                     <div id="social">
                                         <ul>
-                                            <li><a href={social.facebook} target="_blank"><i className="fab fa-facebook-f"></i></a></li>
-                                            <li><a href={social.instagram} target="_blank"><i className="fab fa-instagram"></i></a></li>
-                                            <li><a href={social.linkedin} target="_blank"><i className="fab fa-linkedin-in"></i></a></li>
+                                            <li><a href={social.facebook} target="_blank"><i
+                                                className="fab fa-facebook-f"></i></a></li>
+                                            <li><a href={social.instagram} target="_blank"><i
+                                                className="fab fa-instagram"></i></a></li>
+                                            <li><a href={social.linkedin} target="_blank"><i
+                                                className="fab fa-linkedin-in"></i></a></li>
                                         </ul>
                                     </div>
                                     <div>
@@ -307,13 +321,15 @@ export default function Index(props) {
                                                                             name="gender"
                                                                             required
                                                                             className="none"
-                                                                            value=""/>
+                                                                            value={data.gender}
+                                                                        />
                                                                         <label
                                                                             className="container_radio mr-3">{__('Male')}
                                                                             <input
                                                                                 type="radio"
                                                                                 name="gender"
-                                                                                value="Male"
+                                                                                value={data.gender}
+                                                                                checked={data.gender === "Male"}
                                                                                 onClick={() => setData({
                                                                                     ...data,
                                                                                     gender: 'Male'
@@ -327,7 +343,8 @@ export default function Index(props) {
                                                                             <input
                                                                                 type="radio"
                                                                                 name="gender"
-                                                                                value="Female"
+                                                                                value={data.gender}
+                                                                                checked={data.gender === "Female"}
                                                                                 onClick={() => setData({
                                                                                     ...data,
                                                                                     gender: 'Female'
@@ -407,6 +424,7 @@ export default function Index(props) {
                                                                                id="fakeBrowse"
                                                                                onClick={handleBrowseClick}/>
                                                                         <input type="text"
+                                                                               value={fileInput}
                                                                                className="col-md-8 form-control"
                                                                                id="filename" readOnly="true" disabled/>
                                                                     </div>
@@ -414,7 +432,7 @@ export default function Index(props) {
                                                                         type="file"
                                                                         id="browse"
                                                                         name="file"
-                                                                        required
+                                                                        required={!data.file}
                                                                         className={'none'}
                                                                         accept=".pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                                                         onChange={handleChange}/>
@@ -423,6 +441,33 @@ export default function Index(props) {
                                                                         {__('Please_input_your_resume')}
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="text-center">
+                                                                <div className="form-group terms">
+                                                                    <label
+                                                                        className="container_check">{__('Please_read_on')}
+                                                                        <a href="#openModal-about"
+                                                                           className={'conditions'}> {__('Terms_and_Conditions')}
+                                                                        </a> {__('Before_submitting_the_application')}
+                                                                        <input type="checkbox" name="terms"
+                                                                               onChange={() => setData({
+                                                                                   ...data,
+                                                                                   term: !data.term
+                                                                               })}
+                                                                               className="required"
+                                                                               required/>
+                                                                        <span className="checkmark"></span>
+                                                                    </label>
+                                                                </div>
+                                                                {
+                                                                    !data.term ? (
+                                                                        <div className="invalid-terms">
+                                                                            {__('Please_check_terms')}
+                                                                        </div>
+                                                                    ): null
+                                                                }
                                                             </div>
                                                         </div>
                                                     </Form>
@@ -437,12 +482,12 @@ export default function Index(props) {
                                                                 <div className="form-group">
                                                                     <Form.Label
                                                                         htmlFor="basic-url">{__('City')}</Form.Label>
-                                                                    <Form.Select required value={data.city} id="city"
+                                                                    <Form.Select required
+                                                                                 placeholder={__('select_a_city')}
+                                                                                 value={data.city}
+                                                                                 id="city"
                                                                                  onChange={onCityChange}
                                                                                  aria-label="Select a city">
-                                                                        <option
-                                                                            disabled
-                                                                            value={''}>{__('select_a_city')}</option>
                                                                         {
                                                                             cities.map((option, index) => {
                                                                                 return (<option key={index}
@@ -467,6 +512,7 @@ export default function Index(props) {
                                                                                 id="city_area"
                                                                                 onChange={onAreaChange}
                                                                                 aria-label="select_a_area">
+                                                                                <option value="" className="text-secondary">{__('Choose_area')}</option>
                                                                                 {
                                                                                     selectedCity.get_city_areas.map((option, index) => {
                                                                                         return (<option
@@ -491,8 +537,9 @@ export default function Index(props) {
                                                                             <Form.Select
                                                                                 required value={data.city_area_district}
                                                                                 id="city_area_district"
-                                                                                onChange={onChange}
+                                                                                onChange={onSelectChange}
                                                                                 aria-label="Select_a_district">
+                                                                                <option value="" className="text-secondary">{__('Choose_district')}</option>
                                                                                 {
                                                                                     selectedArea.get_city_area_districts.map((option, index) => {
                                                                                         return (<option
@@ -529,11 +576,11 @@ export default function Index(props) {
                                                                     <Form.Select
                                                                         id="city_area"
                                                                         onChange={onDegreeChange}
+                                                                        value=""
                                                                         aria-label="Select a area">
-                                                                        <option disabled>{__('Add_Degree')}</option>
+                                                                        <option className="text-secondary">{__('Add_Degree')}</option>
                                                                         {
                                                                             degrees
-                                                                                // .filter((el) => !selectedDegrees.includes(el.id))
                                                                                 .map((option, index) => {
                                                                                     return (<option
                                                                                         key={`${index}-${option.id}`}
@@ -552,14 +599,14 @@ export default function Index(props) {
                                                                         data.degrees.map((el, index) => {
                                                                             return (
                                                                                 <Accordion.Item
-                                                                                    eventKey={`acc-${el.id}`}>
+                                                                                    eventKey={`acc-${index}`}>
                                                                                     <div className="job-header">
                                                                                         <Accordion.Header>
                                                                                             {el.title}
                                                                                         </Accordion.Header>
                                                                                         <span
                                                                                             className="job-remove-icon"
-                                                                                            onClick={() => window.confirm(__('Are_you_sure_you_wish_to_delete_this_item?')) ? removeDegree(el.id) : console.log('cancel') }
+                                                                                            onClick={() => window.confirm(__('Are_you_sure_you_wish_to_delete_this_item?')) ? removeDegree(index) : console.log('cancel')}
                                                                                         >
                                                                                             <svg
                                                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -577,7 +624,7 @@ export default function Index(props) {
                                                                                     {
                                                                                         el.type ? (
                                                                                             <Accordion.Body
-                                                                                                className={'job-accordion-body'}>
+                                                                                                className={'job-accordion-body' + el.type}>
                                                                                                 <div
                                                                                                     className={'row p-4 py-5'}>
                                                                                                     <div
@@ -696,8 +743,10 @@ export default function Index(props) {
                                                                                                  className="col-md-6">
                                                                                                 <label
                                                                                                     className={'job-label'}>
+
                                                                                                     <input
                                                                                                         type="checkbox"
+                                                                                                        checked={data.jobs.indexOf(`${option.id}`) > -1 ? 'checked': ''}
                                                                                                         onChange={handleCheck}
                                                                                                         value={option.id}/>
                                                                                                     {option.title}
@@ -725,30 +774,6 @@ export default function Index(props) {
                                                     </Form>
                                                 ) : null
                                             }
-
-                                            {
-                                                step === 3 ? (
-                                                    <Form noValidate validated={validatedTree} className="step step-tree">
-                                                        <div className="summary">
-                                                            <div className="wrapper">
-                                                                <h3>{__('Thanks_for_taking_the_time!')}</h3>
-                                                            </div>
-                                                            <div className="text-center">
-                                                                <div className="form-group terms">
-                                                                    <label
-                                                                        className="container_check">{__('Please_read_on')}
-                                                                        <a href="#openModal-about" className={'conditions'}> {__('Terms_and_Conditions')}
-                                                                        </a> {__('Before_submitting_the_application')}
-                                                                        <input type="checkbox" name="terms" className="required"
-                                                                               required/>
-                                                                        <span className="checkmark"></span>
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </Form>
-                                                ) : null
-                                            }
                                         </div>
                                         <div id="bottom-wizard">
                                             {step > 1 ? (
@@ -758,17 +783,19 @@ export default function Index(props) {
                                                 </button>
                                             ) : null
                                             }
-                                            {step !== 3 ? (
+                                            {step == 1 ? (
                                                 <button onClick={step === 1 ? increaseStepOne : increaseStepTwo}
                                                         type="button"
                                                         id="submit"
                                                         className="submit">
                                                     {__('Next')}
                                                 </button>
-                                            ) : <button onClick={submitForm}
-                                                        type="button"
-                                                        id="submit"
-                                                        className="submit">
+                                            ) : <button
+                                                disabled={submiting}
+                                                onClick={submitForm}
+                                                type="button"
+                                                id="submit"
+                                                className="submit">
                                                 {__('Add')}
                                             </button>
                                             }
