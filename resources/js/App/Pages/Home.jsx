@@ -320,7 +320,7 @@ export default function Index(props) {
                                                                                 })}
                                                                                 className="required"
                                                                             />
-                                                                            <span className="checkmark"></span>
+                                                                            <span className="checkmark"/>
                                                                         </label>
                                                                         <label
                                                                             className="container_radio">{__('Female')}
@@ -385,6 +385,7 @@ export default function Index(props) {
                                                                     <label htmlFor="mail">{__('Mobile')}</label>
                                                                     <input
                                                                         type="text"
+                                                                        pattern="[0-9][0-9][0-9]{7}"
                                                                         id="mobile"
                                                                         className="form-control"
                                                                         name="mobile"

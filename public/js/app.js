@@ -6272,6 +6272,7 @@ function Index(props) {
                             children: __('Mobile')
                           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
                             type: "text",
+                            pattern: "[0-9][0-9][0-9]{7}",
                             id: "mobile",
                             className: "form-control",
                             name: "mobile",
