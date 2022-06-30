@@ -16,9 +16,9 @@
     <!-- GOOGLE WEB FONT -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!--     Fonts and icons     -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @routes
     <script src="{{ mix('/js/app.js') }}" defer></script>
 
