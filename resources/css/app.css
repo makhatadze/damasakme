@@ -65,3 +65,8 @@
     font-size: .875em;
     color: #dc3545;
 }
+
+.error-header button {
+    color: #dc3545 !important;
+    background-color: #dc354521 !important;
+}

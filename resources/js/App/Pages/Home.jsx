@@ -22,7 +22,7 @@ function CustomToggle({children, eventKey}) {
 export default function Index(props) {
     const {cities, jobs, degrees} = props;
     const [loading, setLoading] = useState(true)
-    const [step, setStep] = useState(2)
+    const [step, setStep] = useState(1)
     const [validatedOne, setValidatedOne] = useState(false);
     const [validatedTwo, setValidatedTwo] = useState(false);
     const [validatedTree, setValidatedTree] = useState(false);
@@ -30,6 +30,20 @@ export default function Index(props) {
     const {social} = usePage().props;
     const [selectedCity, setSelectedCity] = useState(null);
     const [selectedArea, setSelectedArea] = useState(null);
+    const [defaultActiveKey,setDefaultActiveKey] = useState([
+        'acc-0',
+        'acc-1',
+        'acc-2',
+        'acc-3',
+        'acc-4',
+        'acc-5',
+        'acc-6',
+        'acc-7',
+        'acc-8',
+        'acc-9',
+        'acc-10',
+        'acc-11',
+    ]);
 
     const [selectedDegrees, setSelectedDegrees] = useState([]);
     const [fileInput, setFileInput] = useState('')
@@ -133,7 +147,7 @@ export default function Index(props) {
             ...data,
             degrees: newDegrees
         })
-        setSelectedDegrees(newDegrees.map(e => e.id))
+        setSelectedDegrees(newDegrees.map(e => e.id));
     };
 
     useEffect(() => {
@@ -203,6 +217,13 @@ export default function Index(props) {
         }
 
         setValidatedTwo(true);
+    }
+
+    const customValidation = (element) => {
+        if (validatedTwo && element.type === 1 && (element.school === '' || element.profession === '' ||element.start_date === '' || element.end_date === '')) {
+            return "error-header"
+        }
+        return "";
     }
 
     const handleCheck = (event) => {
@@ -593,15 +614,20 @@ export default function Index(props) {
 
                                                         <div className="row my-4">
                                                             <div className="col-md-12">
-                                                                <Accordion>
+                                                                <Accordion
+                                                                    defaultActiveKey={defaultActiveKey}
+                                                                    alwaysOpen
+                                                                >
                                                                     {
                                                                         data.degrees.map((el, index) => {
                                                                             return (
                                                                                 <Accordion.Item
                                                                                     eventKey={`acc-${index}`}>
                                                                                     <div className="job-header">
-                                                                                        <Accordion.Header>
-                                                                                            {el.title}
+                                                                                        <Accordion.Header className={customValidation(el)}>
+                                                                                            <span>
+                                                                                                {el.title}
+                                                                                            </span>
                                                                                         </Accordion.Header>
                                                                                         <span
                                                                                             className="job-remove-icon"
