@@ -223,6 +223,8 @@ export default function Index(props) {
         if (validatedTwo && element.type === 1 && (element.school === '' || element.profession === '' ||element.start_date === '' || element.end_date === '')) {
             return "error-header"
         }
+        console.log(validatedTwo)
+        console.log(element.type)
         return "";
     }
 
