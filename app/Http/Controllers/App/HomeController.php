@@ -73,23 +73,27 @@ class HomeController extends Controller
             $guests->timestamps = true;
             $guests->save();
             //
-            foreach ($request->jobs as $key => $job) {
-                DB::table('guest_jobs')->insert([
-                    'guest_id' => $guests->id,
-                    'job_id' => $job,
-                ]);
+            if($request->jobs) {
+                foreach ($request->jobs as $key => $job) {
+                    DB::table('guest_jobs')->insert([
+                        'guest_id' => $guests->id,
+                        'job_id' => $job,
+                    ]);
+                }
             }
-            foreach ($request->degrees as $key => $degree):
-                DB::table('guest_educations')->insert([
-                    'guest_id' => $guests->id,
-                    'education_id' => $degree['id'],
-                    'education_name' =>$degree['title'] ,
-                    'school' => $degree['school'] ?? null,
-                    'profession' => $degree['profession'] ?? null,
-                    'start_date' => $degree['start_date'] ?? null,
-                    'end_date' => $degree['end_date'] ?? null,
-                ]);
-            endforeach;
+            if ($request->degrees) {
+                foreach ($request->degrees as $key => $degree):
+                    DB::table('guest_educations')->insert([
+                        'guest_id' => $guests->id,
+                        'education_id' => $degree['id'],
+                        'education_name' =>$degree['title'] ,
+                        'school' => $degree['school'] ?? null,
+                        'profession' => $degree['profession'] ?? null,
+                        'start_date' => $degree['start_date'] ?? null,
+                        'end_date' => $degree['end_date'] ?? null,
+                    ]);
+                endforeach;
+            }
 
             //sens email to aplicant disabled
             $emailheaders = [
